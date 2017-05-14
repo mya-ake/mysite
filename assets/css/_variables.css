@@ -3,4 +3,6 @@
   --c-text: #393939;
   --c-a: #3993DD;
   --c-border: #C9C9C9;
+  --c-bg-main-header: rgba(253, 253, 253, 0.7);
+  --h-main-header: 56px;
 }
