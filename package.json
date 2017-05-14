@@ -5,6 +5,7 @@
   "repository": "https://github.com/mya-ake/mysite.git",
   "license": "MIT",
   "dependencies": {
+    "normalize.css": "^7.0.0",
     "nuxt": "^0.10.7"
   },
   "scripts": {
