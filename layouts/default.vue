@@ -42,8 +42,14 @@ body {
   position: relative;
   font-feature-settings: "pkna" 1;
   letter-spacing: 0.04em;
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 main {
