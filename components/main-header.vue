@@ -36,7 +36,28 @@
   export default {
     data () {
       return {
-        menuItem: [],
+        menuItem: [
+          {
+            name: 'Top',
+            url: '/',
+          },
+          {
+            name: 'About',
+            url: '/about',
+          },
+          {
+            name: 'Works',
+            url: '/works',
+          },
+          {
+            name: 'Slides',
+            url: '/slides',
+          },
+          {
+            name: 'Contact',
+            url: '/contact',
+          },
+        ],
       }
     },
   }
@@ -65,8 +86,48 @@
 }
 
 .list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   margin: 0;
   padding: 0;
   list-style: none;
+
+  li:first-child {
+    margin-right: auto;
+  }
+}
+
+.nav-item {
+  visibility: visible;
+  a {
+    display: inline-block;
+    padding: 1.8rem 2.7rem;
+    text-decoration: none;
+    font-size: 1.8rem;
+    color: var(--c-text);
+    position: relative;
+  	transition: background-color 0.2s;
+    &:hover {
+      background-color: var(--c-hover);
+    }
+    &::after {
+      content: "";
+      width: 0;
+      height: 0.2rem;
+      background-color: var(--c-text);
+      position: absolute;
+      left: 50%;
+      bottom: 1.3rem;
+      will-change: width,left;
+    	transition: all 0.2s;
+    }
+    &.router-link-exact-active {
+      &::after {
+        width: 70%;
+        left: 15%;
+      }
+    }
+  }
 }
 </style>
