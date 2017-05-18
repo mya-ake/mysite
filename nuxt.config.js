@@ -34,5 +34,8 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  router: {
+    middleware: 'router',
+  },
 }
