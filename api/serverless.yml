@@ -1,0 +1,31 @@
+service: mysite-api
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: ap-northeast-1
+  profile: my
+  stage: v1
+
+package:
+  include:
+    - src/**/*.js
+    - src/**/*.json
+  exclude:
+    - node_modules/**
+    - dev/**
+    - src/**
+    - test/**
+    - package.json
+    - yarn.lock
+    - .eslintignore
+    - .nyc_output/**
+    - coverage/**
+
+
+functions:
+  hello:
+    handler: handler.hello
+    timeout: 120
+    memorySize: 128
+
