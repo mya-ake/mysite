@@ -28,4 +28,9 @@ functions:
     handler: handler.hello
     timeout: 120
     memorySize: 128
+    events:
+      - http:
+          path: ''
+          method: get
+          integration: lambda
 
