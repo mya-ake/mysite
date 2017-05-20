@@ -5,6 +5,7 @@
   "repository": "https://github.com/mya-ake/mysite.git",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.1",
     "normalize.css": "^7.0.0",
     "nuxt": "^0.10.7"
   },
