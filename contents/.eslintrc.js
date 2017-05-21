@@ -42,6 +42,9 @@ module.exports = {
     'no-shadow': 'error',
     'no-unreachable': 'error',
     'no-var': 'error',
-    'no-magic-numbers': 'error'
+    'no-magic-numbers': [
+      'error',
+      { "ignore": [-1, 0, 1] }
+    ]
   }
 }
