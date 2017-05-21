@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "colors": "^1.1.2",
     "highlight.js": "^9.11.0",
     "marked": "^0.3.6"
   }
