@@ -3,7 +3,7 @@
     <nav>
       <ul class="list">
         <li>
-          <router-link id="logo-wrapper" to="/">
+          <nuxt-link id="logo-wrapper" to="/">
             <svg id="logo" viewBox="0 0 1000 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
               xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
               <title>サイトのロゴ</title>
@@ -22,10 +22,10 @@
                   style="fill:#393939;" />
               </g>
             </svg>
-          </router-link>
+          </nuxt-link>
         </li>
         <li v-for="item in menuItem" class="nav-item">
-          <router-link v-bind:to="item.url">{{item.name}}</router-link>
+          <nuxt-link v-bind:to="item.url">{{item.name}}</nuxt-link>
         </li>
       </ul>
     </nav>
