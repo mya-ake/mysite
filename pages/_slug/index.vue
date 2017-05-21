@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>Hello {{content}}</h1>
+    <h1>Hello {{content.title}}</h1>
+    <div v-html="content.body"></div>
   </div>
 </template>
 

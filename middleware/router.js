@@ -1,16 +1,33 @@
-const DELAY1 = 200
+import axios from 'axios'
+
+const STATUS_CODE = Object.freeze({
+  NOT_FOUND: 404,
+})
+
+// const DELAY1 = 200
 const DELAY2 = 500
 
+const ORIGIN = 'http://127.0.0.1:3000'
+
 const router = (context) => {
-  console.info(context)
-  const p1 = new Promise((resolve) => {
-    setTimeout(() => {
-      console.info('comp 1')
-      context.store.dispatch('content/setContent', {
-        content: context.params.slug,
+  const p1 = new Promise((resolve, reject) => {
+    const content = context.params.slug || 'index'
+    axios.get(`${ORIGIN}/contents/pages/${content}.json`)
+      .then((response) => {
+        context.store.dispatch('content/setContent', response.data)
+        resolve()
       })
-      resolve()
-    }, DELAY1)
+      .catch((err) => {
+        switch (err.response.status) {
+          case STATUS_CODE.NOT_FOUND:
+            context.store.dispatch('content/setContent', {})
+            resolve()
+            break
+          default:
+            reject(err)
+            break
+        }
+      })
   })
 
   const p2 = new Promise((resolve) => {
