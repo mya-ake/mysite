@@ -5,6 +5,7 @@ const TYPES = Object.freeze({
 export const state = {
   content: {
     title: '',
+    description: '',
     body: '',
   },
 }
@@ -13,6 +14,7 @@ export const mutations = {
   [TYPES.SET_CONTENT] (argState, payload) {
     argState.content = {
       title: payload.title,
+      description: payload.description,
       body: payload.body,
     }
   },

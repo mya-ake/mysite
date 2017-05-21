@@ -7,6 +7,13 @@
 
 <script>
   export default {
+    head () {
+      return {
+        meta: [
+          { hid: 'description', name: 'description', content: this.$store.state.content.content.description },
+        ],
+      }
+    },
     computed: {
       content () {
         return this.$store.state.content.content
