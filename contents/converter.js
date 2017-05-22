@@ -43,9 +43,9 @@ const verifyValues = (values, argObject) => {
 /** main process */
 const argv = process.argv.filter((value, index) => index > 1);
 
-const targets = extractArgv(argv, ARGV.TARGET.COMMAND);
-verifyValues(targets, ARGV.TARGET);
+const argTargets = extractArgv(argv, ARGV.TARGET.COMMAND);
+verifyValues(argTargets, ARGV.TARGET);
 
-const files = extractArgv(argv, ARGV.FILE.COMMAND);
+const argFiles = extractArgv(argv, ARGV.FILE.COMMAND);
 
 console.info(colors.green('Completed.'));
