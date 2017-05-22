@@ -6,6 +6,12 @@ const marked = require('marked');
 const highlight = require('highlight.js');
 const colors = require('colors/safe');
 
+marked.setOptions({
+  highlight (code) {
+    return highlight.highlightAuto(code).value;
+  },
+});
+
 /** constants */
 const ARGV = Object.freeze({
   TARGET: {
