@@ -73,6 +73,29 @@ const getTargetFileNames = (targets) => {
   return fileNames;
 };
 
+const getConvertFileNames = (targetFileNames, argFileNames) => {
+  let convertFileNames = [];
+  Object.keys(targetFileNames).forEach((folderName) => {
+    const fileNames = targetFileNames[folderName];
+    const tmpFileNames = fileNames.filter((fileName) => {
+      if (argFileNames.length === 0) {
+        return true;
+      }
+      return argFileNames.includes(fileName);
+    })
+      .map((fileName) => `${folderName}/${fileName}`);
+    convertFileNames = convertFileNames.concat(tmpFileNames);
+  });
+  return convertFileNames;
+};
+
+const verifyFileNames = (fileNames) => {
+  if (fileNames.length === 0) {
+    console.error(colors.red('Error: No file to convert.'));
+    process.exit();
+  }
+};
+
 /** main process */
 const argv = process.argv.filter((value, index) => index > 1);
 
@@ -83,9 +106,10 @@ const targets = createTargets(argTargets);
 console.info(colors.cyan(`Target Folders: ${targets.join(',')}`));
 
 // File Names
-const fileNames = getTargetFileNames(targets);
+const targetFileNames = getTargetFileNames(targets);
+const argFileNames = extractArgv(argv, ARGV.FILE.COMMAND);
+const fileNames = getConvertFileNames(targetFileNames, argFileNames);
 console.info(fileNames);
-
-// const argFiles = extractArgv(argv, ARGV.FILE.COMMAND);
+verifyFileNames(fileNames);
 
 console.info(colors.green('Completed.'));
