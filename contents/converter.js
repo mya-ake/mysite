@@ -121,11 +121,28 @@ const extractTitle = (html) => {
   return html.match(/<h1>(.*?)<\/h1>/);
 };
 
+const extractDescription = (html) => {
+  return html.match(/@@\n?(.*?)\n?@@/);
+};
+
+const removeEmptyPTag = (html) => {
+  return html.replace(/<p>\s*<\/p>/, '');
+};
+
+const removeBeforeAndAfterNewLine = (html) => {
+  return html.replace(/^\n*|\n*$/g, '');
+};
+
 const buildJson = (html) => {
-  const [removeHtml, title] = extractTitle(html);
-  html = html.replace(removeHtml, '');
+  const [removeHtmlTitle, title] = extractTitle(html) || ['', ''];
+  const [removeHtmlDesciption, description] = extractDescription(html) || ['', ''];
+  html = html.replace(removeHtmlTitle, '').replace(removeHtmlDesciption, '');
+  html = removeEmptyPTag(html);
+  html = removeBeforeAndAfterNewLine(html);
+
   return {
     title: title,
+    description: description,
     body: html,
   };
 };
