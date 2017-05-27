@@ -118,7 +118,16 @@ const changeExtensionMdToJson = (fileName) => {
 };
 
 const extractTitle = (html) => {
-  return html.match(/<h1>(.*?)<\/h1>/)[1];
+  return html.match(/<h1>(.*?)<\/h1>/);
+};
+
+const buildJson = (html) => {
+  const [removeHtml, title] = extractTitle(html);
+  html = html.replace(removeHtml, '');
+  return {
+    title: title,
+    body: html,
+  };
 };
 
 /** main process */
@@ -142,11 +151,7 @@ for (let filePath of filePaths) {
   try {
     let fileData = fs.readFileSync(path.join(__dirname, filePath)).toString();
     let html = marked(fileData);
-    let title = extractTitle(html);
-    let json = JSON.stringify({
-      title: title,
-      body: html,
-    });
+    let json = JSON.stringify(buildJson(html));
     let saveFilePath = changeExtensionMdToJson(filePath);
     fs.writeFileSync(path.join(PATH_INFO.DIST, saveFilePath), json);
   } catch (error) {
