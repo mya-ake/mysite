@@ -12,5 +12,8 @@ const wrapExecSync = (command) => {
 
 process.env.ORIGIN = `http://localhost:${ENV.LOCAL_SERVER.PORT}`;
 wrapExecSync('yarn start:local');
-wrapExecSync('yarn generate');
-wrapExecSync('yarn stop:local');
+try {
+  wrapExecSync('yarn generate');
+} finally {
+  wrapExecSync('yarn stop:local');
+}
