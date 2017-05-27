@@ -6,7 +6,13 @@ const marked = require('marked');
 const highlight = require('highlight.js');
 const colors = require('colors/safe');
 
+const renderer = new marked.Renderer();
+renderer.heading = (text, level) => {
+  return `<h${level}>${text}</h${level}>`;
+};
+
 marked.setOptions({
+  renderer: renderer,
   highlight (code) {
     return highlight.highlightAuto(code).value;
   },
@@ -23,6 +29,10 @@ const ARGV = Object.freeze({
     NAME: 'file',
     COMMAND: '-f',
   },
+});
+
+const PATH_INFO = Object.freeze({
+  DIST: `${__dirname}/../static/contents`,
 });
 
 /** functions */
@@ -73,7 +83,7 @@ const getTargetFileNames = (targets) => {
   return fileNames;
 };
 
-const getConvertFileNames = (targetFileNames, argFileNames) => {
+const getConvertFilePaths = (targetFileNames, argFileNames) => {
   let convertFileNames = [];
   const funcFilter = (() => {
     if (argFileNames.length === 0) {
@@ -95,11 +105,15 @@ const getConvertFileNames = (targetFileNames, argFileNames) => {
   return convertFileNames;
 };
 
-const verifyFileNames = (fileNames) => {
+const verifyFilePaths = (fileNames) => {
   if (fileNames.length === 0) {
     console.error(colors.red('Error: No file to convert.'));
     process.exit();
   }
+};
+
+const changeExtensionMdToJson = (fileName) => {
+  return fileName.replace(/\.md$/, '.json');
 };
 
 /** main process */
@@ -114,10 +128,25 @@ console.info(colors.cyan(`Target Folders: ${targets.join(', ')}`));
 // File Names
 const targetFileNames = getTargetFileNames(targets);
 const argFileNames = extractArgv(argv, ARGV.FILE.COMMAND);
-const fileNames = getConvertFileNames(targetFileNames, argFileNames);
-verifyFileNames(fileNames);
-console.info(colors.cyan(`Files to convert: ${fileNames.join(', ')}`));
+const filePaths = getConvertFilePaths(targetFileNames, argFileNames);
+verifyFilePaths(filePaths);
+console.info(colors.cyan(`Files to convert: ${filePaths.join(', ')}`));
 
-
+// Convert
+for (let filePath of filePaths) {
+  try {
+    let fileData = fs.readFileSync(path.join(__dirname, filePath)).toString();
+    let html = marked(fileData);
+    console.log(extractTitle(html));
+    let json = JSON.stringify({
+      body: html,
+    });
+    let saveFilePath = changeExtensionMdToJson(filePath);
+    fs.writeFileSync(path.join(PATH_INFO.DIST, saveFilePath), json);
+  } catch (error) {
+    console.error(colors.red(error));
+    process.exit();
+  }
+}
 
 console.info(colors.green('Completed.'));
