@@ -109,13 +109,15 @@ const argv = process.argv.filter((value, index) => index > 1);
 const argTargets = extractArgv(argv, ARGV.TARGET.COMMAND);
 verifyValues(argTargets, ARGV.TARGET);
 const targets = createTargets(argTargets);
-console.info(colors.cyan(`Target Folders: ${targets.join(',')}`));
+console.info(colors.cyan(`Target Folders: ${targets.join(', ')}`));
 
 // File Names
 const targetFileNames = getTargetFileNames(targets);
 const argFileNames = extractArgv(argv, ARGV.FILE.COMMAND);
 const fileNames = getConvertFileNames(targetFileNames, argFileNames);
-console.info(fileNames);
 verifyFileNames(fileNames);
+console.info(colors.cyan(`Files to convert: ${fileNames.join(', ')}`));
+
+
 
 console.info(colors.green('Completed.'));
