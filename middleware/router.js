@@ -5,11 +5,10 @@ const STATUS_CODE = Object.freeze({
 })
 
 // const DELAY1 = 200
-const DELAY2 = 500
-
-const ORIGIN = 'http://127.0.0.1:3000'
+// const DELAY2 = 500
 
 const router = (context) => {
+  const ORIGIN = context.env.origin
   const p1 = new Promise((resolve, reject) => {
     const content = context.params.slug || 'top'
     axios.get(`${ORIGIN}/contents/pages/${content}.json`)
@@ -18,6 +17,11 @@ const router = (context) => {
         resolve()
       })
       .catch((err) => {
+        if (err.response === undefined || err.response.status === undefined) {
+          console.error(err)
+          reject(new Error('Routing response failed.'))
+          return
+        }
         switch (err.response.status) {
           case STATUS_CODE.NOT_FOUND:
             context.store.dispatch('content/setContent', {})
@@ -30,14 +34,14 @@ const router = (context) => {
       })
   })
 
-  const p2 = new Promise((resolve) => {
-    setTimeout(() => {
-      console.info('comp 2')
-      resolve()
-    }, DELAY2)
-  })
+  // const p2 = new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     console.info('comp 2')
+  //     resolve()
+  //   }, DELAY2)
+  // })
 
-  return Promise.all([p1, p2])
+  return Promise.all([p1])
 }
 
 export default router

@@ -14,7 +14,10 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue ."
+    "lint": "eslint --ext .js,.vue .",
+    "generate:local": "node dev/generate.js",
+    "start:local": "pm2 start dev/localserver.js",
+    "stop:local": "pm2 stop all"
   },
   "devDependencies": {
     "autoprefixer": "^7.0.1",
@@ -27,6 +30,8 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "express": "^4.15.3",
+    "pm2": "^2.4.6",
     "postcss-cssnext": "^2.10.0",
     "postcss-import": "^10.0.0",
     "postcss-loader": "^2.0.5",
