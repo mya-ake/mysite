@@ -68,7 +68,7 @@ const getFolderFileNames = (folderName) => {
 const getTargetFileNames = (targets) => {
   const fileNames = {};
   for (let target of targets) {
-    fileNames[target] = getFolderFileNames(target);
+    fileNames[target] = getFolderFileNames(path.join(__dirname, target));
   }
   return fileNames;
 };
