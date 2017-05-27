@@ -11,6 +11,7 @@
   export default {
     head () {
       return {
+        title: this.$store.state.content.content.title,
         meta: [
           { hid: 'description', name: 'description', content: this.$store.state.content.content.description },
         ],

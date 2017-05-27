@@ -11,6 +11,7 @@
   export default {
     head () {
       return {
+        title: this.buildTitle(),
         meta: [
           { hid: 'description', name: 'description', content: this.$store.state.content.content.description },
         ],
@@ -19,6 +20,11 @@
     computed: {
       content () {
         return this.$store.state.content.content
+      },
+    },
+    methods: {
+      buildTitle () {
+        return `${this.$store.state.content.content.title} - mya-ake.com`
       },
     },
   }
