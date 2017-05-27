@@ -11,7 +11,7 @@ const ORIGIN = 'http://127.0.0.1:3000'
 
 const router = (context) => {
   const p1 = new Promise((resolve, reject) => {
-    const content = context.params.slug || 'index'
+    const content = context.params.slug || 'top'
     axios.get(`${ORIGIN}/contents/pages/${content}.json`)
       .then((response) => {
         context.store.dispatch('content/setContent', response.data)
