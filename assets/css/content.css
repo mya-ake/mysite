@@ -1,0 +1,118 @@
+@import './_variables.css';
+
+.content {
+  width: 100%;
+  max-width: var(--w-content);
+  padding: 0 24px;
+}
+.content-header {
+  height: var(--h-content-header);
+  display: flex;
+  align-items: center;
+  h1 {
+    font-size: 2.2em;
+  }
+}
+
+.content-body {
+  font-size: 1.6rem;
+
+  h2 {
+    margin: 0.8em 0;
+    font-size: 1.6em;
+    a {
+      text-decoration: none;
+    }
+  }
+  h3 {
+    margin: 0.8em 0;
+    font-size: 1.4em;
+  }
+  h4 {
+    margin: 0.7em 0;
+    font-size: 1.3em;
+  }
+  h5 {
+    margin: 0.7em 0;
+    font-size: 1.2em;
+  }
+  h6 {
+    margin: 0.7em 0;
+    font-size: 1.1em;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1.1em;
+    line-height: 1.6em;
+  }
+
+  ul,ol {
+    margin: 1.2em 0 2em;
+    padding-left: 1em;
+    li {
+      margin: 0 0 0.8em 1em;
+    }
+  }
+
+  dt {
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+  dd {
+    margin-left: 1.2em;
+    margin-bottom: 3em;
+    p {
+      margin-bottom: 0.4em;
+    }
+  }
+
+  strong {
+    padding: 0 0.14em;
+    display: inline-block;
+    position: relative;
+    color: #000;
+    &::after {
+      content: '';
+      width: 100%;
+      height: 0.4em;
+      background-color: var(--c-enhance);
+      opacity: 0.4;
+      position: absolute;
+      left: 0;
+      bottom: 0.2em;
+      z-index: -1;
+    }
+  }
+
+  blockquote {
+    margin: 1.4em 0 1.4em;
+    border-left: solid 0.25em var(--c-border);
+    padding: 0.7em 1em;
+    * {
+      margin: 0;
+    }
+  }
+
+  pre {
+    margin: 0.6em 0;
+    padding: 0.7em 1em;
+    background-color: var(--c-bg-contnet);
+  }
+
+  table {
+    margin-bottom: 2em;
+    border-collapse: collapse;
+    overflow-x: scroll;
+    display: block;
+    -webkit-overflow-scrolling: touch;
+    th, td {
+      border-bottom: solid 0.1rem var(--c-border);
+      padding: 1.2em 0.8em;
+    }
+  }
+
+  hr {
+    margin: 3em 0;
+  }
+}

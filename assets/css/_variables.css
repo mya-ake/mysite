@@ -2,8 +2,13 @@
   --c-bg: #fdfdfd;
   --c-text: #393939;
   --c-a: #3993DD;
+  --c-enhance: #75E4B3;
+  --c-bg-contnet: #ddd;
+  --c-bg-pre: #eee;
   --c-border: #C9C9C9;
   --c-bg-main-header: rgba(253, 253, 253, 0.7);
   --c-hover: rgba(57, 57, 57, 0.2);
+  --w-content: 680px;
   --h-main-header: 56px;
+  --h-content-header: 200px;
 }

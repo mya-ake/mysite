@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <h1>Hello {{content.title}}</h1>
-    <div v-html="content.body"></div>
-  </div>
+  <article class="content">
+    <header class="content-header">
+      <h1>{{content.title}}</h1>
+    </header>
+    <section v-html="content.body" class="content-body"></section>
+  </article>
 </template>
 
 <script>
@@ -21,3 +23,7 @@
     },
   }
 </script>
+
+<style lang="postcss?sourceMap">
+@import './../assets/css/content.css';
+</style>
