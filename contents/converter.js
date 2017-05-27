@@ -6,6 +6,7 @@ const marked = require('marked');
 const highlight = require('highlight.js');
 const colors = require('colors/safe');
 
+/** marked settings */
 const renderer = new marked.Renderer();
 renderer.heading = (text, level) => {
   return `<h${level}>${text}</h${level}>`;
