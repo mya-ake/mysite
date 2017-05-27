@@ -75,14 +75,20 @@ const getTargetFileNames = (targets) => {
 
 const getConvertFileNames = (targetFileNames, argFileNames) => {
   let convertFileNames = [];
+  const funcFilter = (() => {
+    if (argFileNames.length === 0) {
+      return () => {
+        return true;
+      };
+    }
+    return (fileName) => {
+      return argFileNames.includes(fileName);
+    };
+  })();
+
   Object.keys(targetFileNames).forEach((folderName) => {
     const fileNames = targetFileNames[folderName];
-    const tmpFileNames = fileNames.filter((fileName) => {
-      if (argFileNames.length === 0) {
-        return true;
-      }
-      return argFileNames.includes(fileName);
-    })
+    const tmpFileNames = fileNames.filter(funcFilter)
       .map((fileName) => `${folderName}/${fileName}`);
     convertFileNames = convertFileNames.concat(tmpFileNames);
   });
