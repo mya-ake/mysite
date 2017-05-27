@@ -8,7 +8,12 @@ const STATUS_CODE = Object.freeze({
 // const DELAY2 = 500
 
 const router = (context) => {
-  const ORIGIN = context.env.origin
+  const ORIGIN = (() => {
+    if (context.isClient === true) {
+      return window.location.origin
+    }
+    return context.env.origin
+  })()
   const p1 = new Promise((resolve, reject) => {
     const content = context.params.slug || 'top'
     axios.get(`${ORIGIN}/contents/pages/${content}.json`)
