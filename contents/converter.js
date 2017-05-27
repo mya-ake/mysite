@@ -117,6 +117,10 @@ const changeExtensionMdToJson = (fileName) => {
   return fileName.replace(/\.md$/, '.json');
 };
 
+const extractTitle = (html) => {
+  return html.match(/<h1>(.*?)<\/h1>/)[1];
+};
+
 /** main process */
 const argv = process.argv.filter((value, index) => index > 1);
 
@@ -138,8 +142,9 @@ for (let filePath of filePaths) {
   try {
     let fileData = fs.readFileSync(path.join(__dirname, filePath)).toString();
     let html = marked(fileData);
-    console.log(extractTitle(html));
+    let title = extractTitle(html);
     let json = JSON.stringify({
+      title: title,
       body: html,
     });
     let saveFilePath = changeExtensionMdToJson(filePath);
