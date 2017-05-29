@@ -35,3 +35,16 @@ $ node converter.js -t pages -f about.md
 ```
 $ node converter.js -f about.md
 ```
+
+
+## ビルド
+
+Nuxt.jsのgenerateコマンドによる静的サイトジェネレーターの機能を用いる。
+
+ただし、ページのコンテンツをstaticフォルダのjsonをHTTP通信で取得する仕様になっているため、通常の`yarn genrerate`コマンドでは生成できない。
+
+そのため、ビルド用にローカルサーバーを立てる必用あったので、`yarn generate`とは別コマンドの下記コマンドを用意している。
+
+```
+$ yarn generate:local
+```
