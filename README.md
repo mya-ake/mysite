@@ -1,4 +1,4 @@
-# mya-ake.com project
+# mya-ake.com Project
 
 ## About
 自分のサイト（ https://mya-ake.com/ ）のアーキテクチャ変更プロジェクト。
@@ -31,7 +31,7 @@ $ node converter.js -t pages
 $ node converter.js -t pages -f about.md
 ```
 
-#### ファイル指定コンバート（フォルダが違う同名ファイルも対象になる）
+#### ファイル指定コンバート（フォルダが違う同名ファイルも対象になるはず）（未検証
 ```
 $ node converter.js -f about.md
 ```
