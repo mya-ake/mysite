@@ -10,6 +10,12 @@
 
 全ページの内容は全てMarkdownで記述する。（多分）
 
+MarkdownからHTMLにしてJSONにする。コンバート方法は下記の[Contentsコンバーター](https://github.com/mya-ake/mysite#contentsコンバーター)を参照。
+
+また、HTMLからJSONにするときに、title・description・bodyに分割する。
+
+下記の記述方法通りに書くと適切に分割される。
+
 #### 記述方法
 
 ```
