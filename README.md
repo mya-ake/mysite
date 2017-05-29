@@ -6,6 +6,27 @@
 とりあえずNuxt.jsでSSRできるようにする。
 
 
+## Contents
+
+全ページの内容は全てMarkdownで記述する。（多分）
+
+#### 記述方法
+
+```
+# Ttile
+
+@@
+description
+@@
+
+body...
+...
+```
+※今のところdescriptionの`@@...@@`のみ独自記法が入っている。
+
+サンプルは [/contents/pages/about.md](https://github.com/mya-ake/mysite/blob/master/contents/pages/about.md)を見るとよい。
+
+
 ## Contentsコンバーター
 
 サイトのコンテンツは全てMarkdownで管理されており、サイトではJSONの形式で取扱う。
