@@ -1,4 +1,4 @@
-# mya-ake.com prject
+# mya-ake.com project
 
 ## About
 自分のサイト（ https://mya-ake.com/ ）のアーキテクチャ変更プロジェクト。
