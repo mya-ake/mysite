@@ -4,11 +4,6 @@
   "main": "index.js",
   "repository": "https://github.com/mya-ake/mysite.git",
   "license": "MIT",
-  "dependencies": {
-    "axios": "^0.16.1",
-    "normalize.css": "^7.0.0",
-    "nuxt": "^0.10.7"
-  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -19,8 +14,12 @@
     "start:local": "pm2 start dev/localserver.js",
     "stop:local": "pm2 stop all"
   },
+  "dependencies": {
+    "axios": "^0.16.1",
+    "normalize.css": "^7.0.0",
+    "nuxt": "^1.0.0-rc11"
+  },
   "devDependencies": {
-    "autoprefixer": "^7.0.1",
     "babel-eslint": "^7.2.3",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
@@ -31,10 +30,6 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.15.3",
-    "pm2": "^2.4.6",
-    "postcss-cssnext": "^2.10.0",
-    "postcss-import": "^10.0.0",
-    "postcss-loader": "^2.0.5",
-    "postcss-nested": "^2.0.2"
+    "pm2": "^2.4.6"
   }
 }
