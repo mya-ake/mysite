@@ -4,9 +4,7 @@ module.exports = {
   env: {
     origin: process.env.ORIGIN || 'http://127.0.0.1:3000',
   },
-  /*
-  ** Headers of the page
-  */
+
   head: {
     title: 'starter',
     meta: [
@@ -17,13 +15,13 @@ module.exports = {
     link: [
     ]
   },
-  /*
-  ** Customize the progress-bar color
-  */
+
   loading: { color: '#3B8070' },
-  /*
-  ** Build configuration
-  */
+
+  css: [
+    'normalize.css/normalize.css',
+  ],
+
   build: {
     /*
     ** Run ESLINT on save
@@ -39,9 +37,11 @@ module.exports = {
       }
     }
   },
+
   router: {
     middleware: 'router',
   },
+
   generate: {
     routes: routes,
   },
