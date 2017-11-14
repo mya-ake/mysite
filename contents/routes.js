@@ -3,4 +3,4 @@ module.exports = [
   '/works',
   '/slides',
   '/contact',
-];
+]
