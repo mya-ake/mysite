@@ -1,50 +1,26 @@
 module.exports = {
-  'root': true,
-  'parser': 'babel-eslint',
-  'env': {
-    'browser': true,
-    'node': true
+  root: true,
+  parser: 'babel-eslint',
+  env: {
+    browser: true,
+    node: true,
   },
-  'extends': 'standard',
-  'plugins': [
-    'html'
+  extends: 'standard',
+  // required to lint *.vue files
+  plugins: [
+    'html',
   ],
-  'rules': {
-    'indent': [
-      'error',
-      2,
-      {
-        'SwitchCase': 1
-      }
-    ],
-    'linebreak-style': [
-      'error',
-      'unix'
-    ],
-    'quotes': [
-      'error',
-      'single'
-    ],
-    'semi': [
-      'error',
-      'never'
-    ],
-    'no-console': [
-      'error',
-      {
-        'allow': ['info', 'error'],
-      }
-    ],
-    'comma-dangle': [
-      'error',
-      'always-multiline',
-    ],
-    'no-implicit-coercion': 'error',
+  // add your custom rules here
+  rules: {
+    'arrow-parens': ['error', 'always'],
+    'comma-dangle': ['error', 'always-multiline'],
+    'curly': 'error',
     'default-case': 'error',
-    'eqeqeq': 'error',
-    'no-shadow': 'error',
-    'no-unreachable': 'error',
+    'indent': ['error', 2, { 'SwitchCase': 1 }],
+    'no-console': 'warn',
+    'no-implicit-coercion': 'error',
+    'no-mixed-operators': 'error',
     'no-var': 'error',
-    'no-magic-numbers': 'error'
-  }
+  },
+  globals: {},
 }
