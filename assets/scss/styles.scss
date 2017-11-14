@@ -1,0 +1,58 @@
+@import '_variables.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-size: 62.5%;
+}
+
+body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, ".SFNSDisplay-Regular", helvetica, "游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "Meiryo UI", "メイリオ", Meiryo, sans-serif;
+  font-size: 1.6rem;
+  line-height: 1;
+  backface-visibility: hidden;
+  position: relative;
+  font-feature-settings: "pkna" 1;
+  letter-spacing: .04em;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: unset;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+main {
+  overflow: hidden;
+}
+
+input, textarea, a, button, select {
+  pointer-events: auto;
+}
+
+button {
+  cursor: pointer;
+  user-select: none;
+}
+
+em {
+  font-style: normal;
+}
+
+#__nuxt {
+  height: 100%;
+}
+
+.hidden-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+}
