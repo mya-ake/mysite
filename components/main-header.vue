@@ -24,7 +24,7 @@
             </svg>
           </nuxt-link>
         </li>
-        <li v-for="item in menuItem" class="nav-item">
+        <li v-for="(item, index) in menuItem" v-bind:key="'menu' + index" class="nav-item">
           <nuxt-link v-bind:to="item.url">{{item.name}}</nuxt-link>
         </li>
       </ul>
@@ -62,72 +62,3 @@
     },
   }
 </script>
-
-<style lang="postcss?sourceMap">
-@import './../assets/css/_variables.css';
-
-#logo {
-  width: 26rem;
-  height: 5rem;
-  background-image: url('~assets/images/mya-ake-logo-text.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: 6px center;
-}
-
-.header {
-  width: 100vw;
-  height: var(--h-main-header);
-  background-color: var(--c-bg-main-header);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 199;
-}
-
-.list {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  li:first-child {
-    margin-right: auto;
-  }
-}
-
-.nav-item {
-  visibility: visible;
-  a {
-    display: inline-block;
-    padding: 1.8rem 2.7rem;
-    text-decoration: none;
-    font-size: 1.8rem;
-    color: var(--c-text);
-    position: relative;
-  	transition: background-color 0.2s;
-    &:hover {
-      background-color: var(--c-hover);
-    }
-    &::after {
-      content: "";
-      width: 0;
-      height: 0.2rem;
-      background-color: var(--c-text);
-      position: absolute;
-      left: 50%;
-      bottom: 1.3rem;
-      will-change: width,left;
-    	transition: all 0.2s;
-    }
-    &.router-link-exact-active {
-      &::after {
-        width: 70%;
-        left: 15%;
-      }
-    }
-  }
-}
-</style>

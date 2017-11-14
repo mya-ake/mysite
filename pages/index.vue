@@ -24,7 +24,3 @@
     },
   }
 </script>
-
-<style lang="postcss?sourceMap">
-@import './../assets/css/content.css';
-</style>

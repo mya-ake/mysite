@@ -2,12 +2,14 @@ const TYPES = Object.freeze({
   SET_CONTENT: 'SET_CONTENT',
 })
 
-export const state = {
-  content: {
-    title: '',
-    description: '',
-    body: '',
-  },
+export const state = () => {
+  return {
+    content: {
+      title: '',
+      description: '',
+      body: '',
+    },
+  }
 }
 
 export const mutations = {
