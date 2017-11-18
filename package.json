@@ -4,6 +4,11 @@
   "main": "index.js",
   "repository": "https://github.com/mya-ake/mysite.git",
   "license": "MIT",
+  "config": {
+    "nuxt": {
+      "port": 13000
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",

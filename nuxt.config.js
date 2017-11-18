@@ -4,7 +4,7 @@ const routes = require('./contents/routes')
 
 module.exports = {
   env: {
-    origin: process.env.ORIGIN || 'http://127.0.0.1:3000',
+    origin: process.env.ORIGIN || 'http://127.0.0.1:13000',
   },
 
   head: {
