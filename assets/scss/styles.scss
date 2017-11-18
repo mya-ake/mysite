@@ -15,7 +15,7 @@ body {
   background-color: $cbg-default;
   color: $ct-default;
   font-family: -apple-system, BlinkMacSystemFont, ".SFNSDisplay-Regular", helvetica, "游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "Meiryo UI", "メイリオ", Meiryo, sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   line-height: 1;
   backface-visibility: hidden;
   position: relative;
@@ -25,6 +25,7 @@ body {
   -moz-osx-font-smoothing: unset;
   pointer-events: none;
   @include media(small) {
+    font-size: 1.6rem;
     pointer-events: auto;
   }
 }
