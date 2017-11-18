@@ -47,6 +47,7 @@ module.exports = {
           options: {
             resources: [
               path.join(__dirname, 'assets', 'scss', '_variables.scss'),
+              path.join(__dirname, 'assets', 'scss', '_mixins.scss'),
             ],
           },
         })
