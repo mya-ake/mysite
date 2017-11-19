@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <main-header></main-header>
+    <GlobalHeader></GlobalHeader>
     <main>
       <nuxt/>
     </main>
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-  import mainHeader from '~/components/main-header.vue'
+  import GlobalHeader from '~/components/GlobalHeader'
   import GlobalFooter from '~/components/GlobalFooter'
 
   export default {
     components: {
-      mainHeader,
+      GlobalHeader,
       GlobalFooter,
     },
   }
