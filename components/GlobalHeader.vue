@@ -1,11 +1,11 @@
 <template>
   <header class="header">
     <div class="site-logo">
-      <nuxt-link id="logo-wrapper" to="/">
-        <img class="logo" src="~/assets/images/mya-ake_logo_text.svg" alt="サイトのロゴ トップページへのリンク">
+      <nuxt-link to="/">
+        <img v-on:click="handleClickToTop" class="logo" src="~/assets/images/mya-ake_logo_text.svg" alt="サイトのロゴ トップページへのリンク">
       </nuxt-link>
     </div>
-    <nav class="navigation">
+    <nav ref="navigation" class="navigation">
       <ul class="navigation__list">
         <li v-for="(item, index) in menuItem" v-bind:key="`menu-${index}`" class="navigation__item">
           <nuxt-link v-bind:to="item.url" class="navigation__link">{{item.name}}</nuxt-link>
@@ -41,6 +41,12 @@
           },
         ],
       }
+    },
+
+    methods: {
+      handleClickToTop () {
+        this.$refs.navigation.scrollTo(0, 0)
+      },
     },
   }
 </script>
