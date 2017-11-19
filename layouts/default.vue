@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <GlobalHeader></GlobalHeader>
+    <GlobalHeader/>
     <main>
       <nuxt/>
     </main>
-    <GlobalFooter class="footer"></GlobalFooter>
+    <GlobalFooter class="footer"/>
   </div>
 </template>
 
