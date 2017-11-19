@@ -1,0 +1,114 @@
+@import '_variables.scss';
+
+.content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.content__header {
+  padding: 32px 16px 24px;
+  @include media(small) {
+    padding: 64px 16px 48px;
+  }
+}
+
+.content__title {
+  margin: 0;
+  font-size: 2em;
+  line-height: 1.4;
+  @include media(small) {
+    font-size: 2.2em;
+  }
+}
+
+.content__body {
+  line-height: 1.6;
+  padding-bottom: 32px;
+
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  pre,
+  table {
+    margin: 0 0 16px;
+    padding: 0 16px;
+  }
+
+  p:has(img) {
+    padding: 0;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+  }
+
+  ul,
+  ol,
+  dl {
+    margin: 0 0 16px;
+    padding: 0 16px 0 32px;
+    ul {
+      margin-bottom: 0;
+      li {
+        padding: 4px 0;
+      }
+    }
+  }
+
+  hr {
+    margin: 32px 16px;
+  }
+
+  h2 {
+    margin: 32px 0 16px;
+    font-size: 1.6em;
+  }
+
+  h3 {
+    margin: 24px 0 16px;
+    font-size: 1.4em;
+  }
+
+  h4 {
+    font-size: 1.3em;
+  }
+
+  h5 {
+    font-size: 1.2em;
+  }
+
+  h6 {
+    font-size: 1em;
+  }
+
+  table {
+    border-collapse: collapse;
+    overflow-x: scroll;
+    display: block;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  th,
+  td {
+    padding: 16px 8px 16px 0;
+  }
+
+  tr {
+    border-bottom: solid 1px $cb-default;
+  }
+}

@@ -1,5 +1,5 @@
 @import '_variables.scss';
-@import '_mixins';
+@import '_mixins.scss';
 
 * {
   box-sizing: border-box;
@@ -68,3 +68,5 @@ em {
   clip: rect(1px, 1px, 1px, 1px);
   overflow: hidden;
 }
+
+@import './content.scss';

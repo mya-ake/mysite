@@ -1,9 +1,9 @@
 <template>
   <article class="content">
-    <header class="content-header">
-      <h1>{{content.title}}</h1>
+    <header class="content__header">
+      <h1 class="content__title">{{content.title}}</h1>
     </header>
-    <section v-html="content.body" class="content-body"></section>
+    <section v-html="content.body" class="content__body"></section>
   </article>
 </template>
 
