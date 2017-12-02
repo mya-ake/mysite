@@ -24,7 +24,7 @@ const ARGV = Object.freeze({
   TARGET: {
     NAME: 'target',
     COMMAND: '-t',
-    CORRECT_VALUES: ['pages', 'slides'],
+    CORRECT_VALUES: ['pages', 'slides', 'posts'],
   },
   FILE: {
     NAME: 'file',
@@ -51,6 +51,7 @@ const extractArgv = (argv, command) => {
 const verifyValues = (values, argObject) => {
   for (let value of values) {
     if (argObject.CORRECT_VALUES.includes(value) === false) {
+      // eslint-disable-next-line
       console.error(colors.red(`Error: Invalid value '${value}' in ${argObject.NAME}[${argObject.COMMAND}].`))
       process.exit()
     }
@@ -71,6 +72,7 @@ const getFolderFileNames = (folderName) => {
   try {
     return fs.readdirSync(folderName)
   } catch (err) {
+    // eslint-disable-next-line
     console.error(colors.red(err))
     process.exit()
   }
@@ -108,6 +110,7 @@ const getConvertFilePaths = (targetFileNames, argFileNames) => {
 
 const verifyFilePaths = (fileNames) => {
   if (fileNames.length === 0) {
+    // eslint-disable-next-line
     console.error(colors.red('Error: No file to convert.'))
     process.exit()
   }
@@ -154,6 +157,7 @@ const argv = process.argv.filter((value, index) => index > 1)
 const argTargets = extractArgv(argv, ARGV.TARGET.COMMAND)
 verifyValues(argTargets, ARGV.TARGET)
 const targets = createTargets(argTargets)
+// eslint-disable-next-line
 console.info(colors.cyan(`Target Folders: ${targets.join(', ')}`))
 
 // File Names
@@ -161,6 +165,7 @@ const targetFileNames = getTargetFileNames(targets)
 const argFileNames = extractArgv(argv, ARGV.FILE.COMMAND)
 const filePaths = getConvertFilePaths(targetFileNames, argFileNames)
 verifyFilePaths(filePaths)
+// eslint-disable-next-line
 console.info(colors.cyan(`Files to convert: ${filePaths.join(', ')}`))
 
 // Convert
@@ -172,6 +177,7 @@ for (let filePath of filePaths) {
     let saveFilePath = changeExtensionMdToJson(filePath)
     fs.writeFileSync(path.join(PATH_INFO.DIST, saveFilePath), json)
   } catch (error) {
+    // eslint-disable-next-line
     console.error(colors.red(error))
     process.exit()
   }
