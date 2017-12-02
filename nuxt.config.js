@@ -54,9 +54,9 @@ module.exports = {
     },
   },
 
-  router: {
-    middleware: 'router',
-  },
+  // router: {
+  //   middleware: 'router',
+  // },
 
   generate: {
     routes: routes,
