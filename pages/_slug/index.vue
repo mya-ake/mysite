@@ -13,18 +13,18 @@
       return {
         title: this.buildTitle(),
         meta: [
-          { hid: 'description', name: 'description', content: this.$store.state.content.content.description },
+          { hid: 'description', name: 'description', content: this.$store.state.contents.content.description },
         ],
       }
     },
     computed: {
       content () {
-        return this.$store.state.content.content
+        return this.$store.state.contents.content
       },
     },
     methods: {
       buildTitle () {
-        return `${this.$store.state.content.content.title} - mya-ake.com`
+        return `${this.$store.state.contents.content.title} - mya-ake.com`
       },
     },
   }

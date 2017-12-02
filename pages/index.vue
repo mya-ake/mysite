@@ -11,15 +11,15 @@
   export default {
     head () {
       return {
-        title: this.$store.state.content.content.title,
+        title: this.$store.state.contents.content.title,
         meta: [
-          { hid: 'description', name: 'description', content: this.$store.state.content.content.description },
+          { hid: 'description', name: 'description', content: this.$store.state.contents.content.description },
         ],
       }
     },
     computed: {
       content () {
-        return this.$store.state.content.content
+        return this.$store.state.contents.content
       },
     },
   }
