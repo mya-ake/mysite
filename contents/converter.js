@@ -136,6 +136,10 @@ const extractDate = (html) => {
   return html.match(/==([0-9\\-]+),?([0-9\\-]+)?==/)
 }
 
+const appendCodeHljsClass = (html) => {
+  return html.replace(/<pre><code( class="([a-zA-Z\\-]+)")?>/g, '<pre><code class="hljs $2">')
+}
+
 const removeEmptyPTag = (html) => {
   return html.replace(/<p>\s*<\/p>/, '')
 }
@@ -151,6 +155,7 @@ const buildJson = (html) => {
   html = html.replace(removeHtmlTitle, '')
           .replace(removeHtmlDesciption, '')
           .replace(removeHtmlDate, '')
+  html = appendCodeHljsClass(html)
   html = removeEmptyPTag(html)
   html = removeBeforeAndAfterNewLine(html)
 
