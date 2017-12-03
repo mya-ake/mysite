@@ -133,7 +133,7 @@ const extractDescription = (html) => {
 }
 
 const extractDate = (html) => {
-  return html.match(/==([0-9\-]+),?([0-9\-]+)?==/)
+  return html.match(/==([0-9\\-]+),?([0-9\\-]+)?==/)
 }
 
 const removeEmptyPTag = (html) => {
