@@ -125,4 +125,9 @@
   tr {
     border-bottom: solid 1px $cb-default;
   }
+
+  pre {
+    overflow-x: scroll;
+    pointer-events: auto;
+  }
 }
