@@ -9,7 +9,11 @@ const colors = require('colors/safe')
 /** marked settings */
 const renderer = new marked.Renderer()
 renderer.heading = (text, level) => {
-  return `<h${level}>${text}</h${level}>`
+  if (level === 1) {
+    return `<h${level}>${text}</h${level}>`
+  }
+  const id = text.replace(/\s+/g, '_')
+  return `<h${level} id="${id}">${text}</h${level}>`
 }
 
 marked.setOptions({
@@ -128,6 +132,10 @@ const extractDescription = (html) => {
   return html.match(/@@\n?(.*?)\n?@@/)
 }
 
+const extractDate = (html) => {
+  return html.match(/==([0-9\-]+),?([0-9\-]+)?==/)
+}
+
 const removeEmptyPTag = (html) => {
   return html.replace(/<p>\s*<\/p>/, '')
 }
@@ -139,14 +147,19 @@ const removeBeforeAndAfterNewLine = (html) => {
 const buildJson = (html) => {
   const [removeHtmlTitle, title] = extractTitle(html) || ['', '']
   const [removeHtmlDesciption, description] = extractDescription(html) || ['', '']
-  html = html.replace(removeHtmlTitle, '').replace(removeHtmlDesciption, '')
+  const [removeHtmlDate, createdAt, updatedAt] = extractDate(html) || ['', '', '']
+  html = html.replace(removeHtmlTitle, '')
+          .replace(removeHtmlDesciption, '')
+          .replace(removeHtmlDate, '')
   html = removeEmptyPTag(html)
   html = removeBeforeAndAfterNewLine(html)
 
   return {
-    title: title,
-    description: description,
+    title,
+    description,
     body: html,
+    createdAt,
+    updatedAt,
   }
 }
 

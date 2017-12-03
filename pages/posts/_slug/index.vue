@@ -2,6 +2,17 @@
   <article class="content">
     <header class="content__header">
       <h1 class="content__title">{{content.title}}</h1>
+      <div class="content__meta">
+        <span v-if="content.updatedAt" class="content__date">
+          <time v-bind:datetime="content.updatedAt">{{content.updatedAt | hyphenToDot}}</time>
+          <span> 更新</span>
+        </span>
+        <span class="content__date">
+          <span v-if="content.updatedAt">（</span>
+          <time v-bind:datetime="content.createdAt">{{content.createdAt | hyphenToDot}}</time>
+          <span v-if="content.updatedAt"> 公開）</span>
+        </span>
+      </div>
     </header>
     <section v-html="content.body" class="content__body"></section>
   </article>
@@ -37,6 +48,12 @@ export default {
   methods: {
     buildTitle () {
       return `${this.$store.state.contents.content.title} - mya-ake.com`
+    },
+  },
+
+  filters: {
+    hyphenToDot (value) {
+      return value.replace(/-/g, '.')
     },
   },
 }

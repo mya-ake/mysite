@@ -23,6 +23,8 @@ export const state = () => {
       title: '',
       description: '',
       body: '',
+      createdAt: '',
+      updatedAt: '',
     },
   }
 }
@@ -34,12 +36,16 @@ export const mutations = {
         title: '',
         description: '',
         body: '',
+        createdAt: '',
+        updatedAt: '',
       }
     } else {
       argState.content = {
         title: payload.title,
         description: payload.description,
         body: payload.body,
+        createdAt: payload.createdAt,
+        updatedAt: payload.updatedAt,
       }
     }
   },

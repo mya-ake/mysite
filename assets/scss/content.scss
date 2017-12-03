@@ -21,6 +21,15 @@
   }
 }
 
+.content__meta {
+  color: $ct-sub;
+}
+
+.content__date {
+  display: inline-block;
+  padding: 8px 8px 0 0;
+}
+
 .content__body {
   line-height: 1.6;
   padding-bottom: 32px;
