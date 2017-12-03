@@ -23,6 +23,7 @@ module.exports = {
   css: [
     'normalize.css/normalize.css',
     '~assets/scss/styles.scss',
+    'highlight.js/styles/monokai.css',
   ],
 
   build: {
