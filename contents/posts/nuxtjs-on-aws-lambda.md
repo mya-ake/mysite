@@ -16,20 +16,29 @@ AWS Lambda は使った分だけ課金される FaaS (Function as a Service) と
 
 今回この2つについて簡単に説明し、なぜSSRするかという話もして、動かすための実装コードの説明していくという盛り沢山な内容になっています。
 
-### アウトライン
-
-* [Nuxt.js](#Nuxt.js)
-* [AWS Lambda](#AWS_Lambda)
-* [なぜSSR？なぜLambda？](#なぜSSR？なぜLambda？)
-* [実装コードの説明](#実装コードの説明)
-* [まとめ](#まとめ)
-* [参考記事集](#参考記事集)
-
 ### 対象読者
 
 * Vue.js のSSR（サーバーサイドレンダリング）に興味がある方
 * Nuxt.js をどういうサーバーで稼働させようか考えている方
 * AWS Lambdaでやろうとして上手くいかなかった方
+
+### 登場人物?たち
+
+* Nuxt.js
+* AWS Lambda
+* [Serverless Framework](https://serverless.com/)
+
+### アウトライン
+
+* [Nuxt.js](#Nuxt.js)
+* [AWS Lambda](#AWS_Lambda)
+* [Serverless Framework](#Serverless_Framework)
+* [なぜSSR？なぜLambda？](#なぜSSR？なぜLambda？)
+* [サーバー構成](#サーバー構成)
+* [実装コードの説明](#実装コードの説明)
+* [まとめ](#まとめ)
+* [参考記事集](#参考記事集)
+
 
 ## Nuxt.js
 
@@ -60,8 +69,36 @@ Nuxt.js についてさらに知りたい方は [potato4d](https://twitter.com/p
 AWS Lambda はサーバーレスと言われる分野で使われている代表的なサービスです。
 冒頭にも書きましたが、使った分だけ課金される料金体系になっています。
 
+コードをアップするだけで稼働し、スケーリングも自動で行われるので、サーバーの管理を煩わしく思うような人におすすめです。
+
+
+## Serverless Framework
+
+Serverless Framework は AWS Lambda へのデプロイを手軽に行えるようにしてくれるツールです。
+Node.js の環境があれば動くので、Nuxt.js を使う環境であればすぐに導入できると思います。
+また、コードベースで設定を管理できるので、同じ環境を作るのも手軽にできます。
+今回の設定などは [GitHub](https://github.com/mya-ake/nuxt-on-lambda)に置いているので、ほぼそのまま使うことができると思います。
 
 ## なぜSSR？なぜLambda？
+
+なぜSSRするか、なぜLambdaを使うかという話は、[Serverless Meetup Fukuoka #1](https://serverless.connpass.com/event/62473/)というイベントで[AWS LambdaでSSRやってみた Vue.js編](https://mya-ake.com/slides/vuejs-ssr-on-lambda)という発表をしてきたので、そちらをご覧いただけると幸いです。
+
+ざっくりなぜSSRするかをまとめると
+
+* Googlebotに正しくサイトを認識してもらうため
+* ファーストビューの速度改善
+* OGPへの対応
+
+ざっくりなぜLambdaを使うかをまとめると
+
+* 1リクエストで1Lambdaが動くので、突発的なアクセスなどに強い
+* サーバーの管理をあまりしたくない
+* 安い
+
+## サーバー構成
+
+
+
 
 ## 実装コードの説明
 
