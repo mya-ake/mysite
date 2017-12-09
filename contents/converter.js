@@ -15,6 +15,21 @@ renderer.heading = (text, level) => {
   const id = text.replace(/\s+/g, '_')
   return `<h${level} id="${id}">${text}</h${level}>`
 }
+renderer.image = (href, title, text) => {
+  if (title === null) {
+    return `<img src="${href}" alt="${text}">`
+  }
+  const sizes = title.split('x')
+  const sizeAttr = sizes.map((size, index) => {
+    if (/^[0-9]+$/.test(size) === false) {
+      return ''
+    }
+    return index === 0
+      ? `width: ${size}px`
+      : `height: ${size}px`
+  }).join(' ')
+  return `<img src="${href}" alt="${text}" style="${sizeAttr}">`
+}
 
 marked.setOptions({
   renderer: renderer,
