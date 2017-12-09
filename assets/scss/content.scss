@@ -129,5 +129,14 @@
   pre {
     overflow-x: scroll;
     pointer-events: auto;
+
+    code {
+      color: #ddd;
+    }
+  }
+
+  code {
+    padding: 0 .2em;
+    color: #e76e3c;
   }
 }
