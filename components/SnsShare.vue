@@ -39,14 +39,13 @@ export default {
 .shares {
   display: flex;
   justify-content: center;
-  padding: 32px 0;
+  padding: 32px 16px;
 }
 
 .share {
   display: inline-block;
   width: 100%;
   max-width: 240px;
-  margin: 0 16px;
   border: solid 2px $ct-default;
   padding: 16px;
   text-align: center;
@@ -56,6 +55,14 @@ export default {
   transition-property: color, background-color;
   transition-duration: .2s;
   transition-timing-function: ease-in-out;
+  &:not(:last-child) {
+    margin-right: 8px;
+  }
+  @include media(small) {
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
+  }
 
   &--twitter {
     color: $c-twitter;
