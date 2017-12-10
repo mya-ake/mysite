@@ -1,7 +1,7 @@
 @import '_variables.scss';
 
 .content {
-  max-width: 50em;
+  max-width: $w-content;
   margin: 0 auto;
 }
 
