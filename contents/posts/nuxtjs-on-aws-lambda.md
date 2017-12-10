@@ -66,7 +66,7 @@ Nuxt.js は 冒頭でも書いたとおり Vue.js のユニバーサルアプリ
 このサイト自体も Nuxt.js を利用して制作しています。
 まだ開発途中で前に作ったサイトと同居状態なのですが、Nuxt.js の静的サイトジェネレーターの機能を使い、このページだけ独立したHTMLとして出力させてサーバーに置いています。
 
-今回は主題は Nuxt.js ではないので紹介はこの程度に留めます。
+今回の主題は Nuxt.js ではないので紹介はこの程度に留めます。
 Nuxt.js についてさらに知りたい方は [potato4d](https://twitter.com/potato4d)さんの[Vue.js製フレームワークNuxt.jsではじめるUniversalアプリケーション開発 | HTML5Experts.jp](https://html5experts.jp/potato4d/24346/)に詳しく書かれているので、そちらをご参照いただくことをオススメします。
 
 ## AWS Lambda
@@ -103,7 +103,7 @@ Node.js の環境があれば動くので、Nuxt.js を使う環境であれば�
 * 安い
 
 以上のような理由です。
-著者の場合はサーバーも自分で用意したりするので、管理を AWS に任せられるので重宝しています。
+筆者の場合はサーバーも自分で用意したりするので、管理を AWS に任せられるので重宝しています。
 
 ## サーバー構成やフォルダ構成
 
@@ -115,7 +115,7 @@ Lambda で Nuxt.js を動かし、API Gateway 経由で公開します。
 ![API Gateway 経由で Lambda にアクセスしている図](/images/nuxtjs-on-aws-lambda/api_gw_architecture.svg)
 
 AWS の設定などは面倒なので、Serverless Framework でやってしまいます。
-サンプルコードでは下記コマンドでデプロイまで完了するようになっています。
+サンプルコードでは下記コマンドで AWS の設定まで含んだデプロイが完了するようになっています。
 
 ```
 $ yarn deploy:api_gw
@@ -131,28 +131,160 @@ $ yarn deploy:api_gw
 
 ```
 project_root/           # プロジェクトのルートフォルダ
-  ├ app/                   # Nuxt.js のソースフォルダ
+  ├ app/                   # フロントエンド側のソースフォルダ（Nuxt.js）
   ├ configs/             # 環境変数などを入れるフォルダ
-  ├ server/               # Lambda で実行させるコードを入れるフォルダ
+  ├ server/               # サーバー側のソースフォルダ（Lambda）
   ├ nuxt.config.js     # Nuxt.js の設定ファイル
   ├ package.json      # npmの設定ファイル
   ├ serverless.yml    # Serverless Framework の設定ファイル
   └ yarn.lock              # npmモジュールのバージョン管理ファイル
 ```
 
-メインのアプリケーションとなる Nuxt.js のフォルダはデプロイの対象を設定しやすいように、srcDir を app に指定しています。
+メインのアプリケーションとなる Nuxt.js のフォルダはデプロイがしやすいように app フォルダにまとめています。
+
 
 ## 実装コードの説明
 
 実装コードについては２つに分けて説明していこうと思います。
-１つはフロントエンド側（Nuxt.js）、もう１つは SSR するためのバックエンド側（Node.js）です。
+１つはフロントエンド側（Nuxt.js）、もう１つは SSR するためのサーバー側（Node.js）です。  
+※説明しやすいようにサンプルコードとは一部異なるところもあります。
 
 ### フロントエンド側 - Nuxt.js
 
 今回は Nuxt.js のスターターテンプレートをベースに利用しています。
 ほぼそのまま利用しており、`nuxt.config.js`のみ変更を加えています。
 
-### バックエンド側 - Node.js
+変更した点は３つあり、それぞれ以下のような感じです。
+
+1. srcDirの設定
+* Base URL の設定（base タグ設定）
+* gzipの無効化
+
+1.はアプリケーションのコードを１つのフォルダにまとめる目的です。
+2.、3.は API Gateway で公開する上で必要になってきます。
+それぞれについてもう少し深掘っていきます。
+
+#### 1. srcDirの設定
+
+srcDirを設定することで１つのフォルダにまとめることができ、デプロイがやりやすくなります。
+また、今回はサーバー側のコードもプロジェクトのフォルダに存在しているため、明確に分ける目的もあります。  
+サーバーで稼働させる時はビルド後のコードを利用するため、自分たちで書いたコードをサーバーにデプロイする必要はありません。
+app フォルダにまとまっていると Serverless Framework のパッケージング時に除外しやすくなります。  
+app フォルダにまとめる設定は簡単で、`nuxt.config.js`に`srcDir`プロパティを設定するだけでできます。
+```JavaScript
+module.exports = {
+  // 略
+  srcDir: 'app',
+  // 略
+}
+```
+srcDirについて: [API: srcDir プロパティ - Nuxt.js](https://ja.nuxtjs.org/api/configuration-srcdir)
+
+
+#### 2. Base URL の設定（base タグ設定）
+
+2.に関してですが、Base URL を設定しないと JS などのリソースが取得できなくなってしまいます。
+その原因は API Gateway で生成される URL と Nuxt.js のリソースのパスの出力の仕方にあります。
+
+API Gateway で公開すると URL は下記のようになります。
+
+```
+https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
+```
+
+末尾についている`/dev/`のところは API Gateway のステージが入ります。
+このステージのパスは省略ができません。
+そのため、１階層下がる前提で考える必要があります。  
+Nuxt.js では JS などのリソースのパスはルートパス（`/assets/app.js`のような書き方）で出力されます。
+このままだと`https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/assets/app.js`を参照してしまいリソースを取得できなくなってしまいます。
+これを解消するには Base URL を設定してあげる必要があります。  
+Base URL を設定すると head タグに 
+```HTML
+<base href="/dev/">
+```
+が追加されます。
+これが追加されると JS のパスがルートパスで指定されていたとしても`https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/assets/app.js`を参照するようになります。  
+この Base URLの設定は、router プロパティで行えます。
+```JavaScript
+module.exports = {
+  // 略
+  router: {
+    base: '/dev/'
+  },
+  // 略
+```
+
+baseについて: [API: router プロパティ - Nuxt.js](https://ja.nuxtjs.org/api/configuration-router#base)
+
+
+#### 3. gzipの無効化
+
+Nuxt.js はデフォルトで gzip の機能が備わっています。
+ありがたい機能ではあるのですが、このままだとブラウザで表示できなくなってしまいます。（Chrome では白い画面、 Firefox では Content-Encoding に問題があると表示されます。）
+細かいところまで調べきれていないのですが、恐らく API Gateway にも gzip の機能が備わっているようです。
+そのため、2重に gzip がかかった状態になってしまい、ブラウザがデコードできないのだと推測されます。
+
+というわけで、 Nuxt.js の gzip を無効化します。
+ただし、Nuxt.js のドキュメント（[API: The render Property - Nuxt.js（英語）](https://nuxtjs.org/api/configuration-render#gzip)）を見てみても無効化の仕方は書いてありません。（日本語の方は設定の仕方が古いようです。）  
+仕方ないので Nuxt.js のコードを覗いてみると Falsy な値を設定させれば無効化できそうです。（[コードはこちら](https://github.com/nuxt/nuxt.js/blob/dev/lib/core/renderer.js#L198)）
+
+gzip の無効化は render プロパティで設定できます。
+```JavaScript
+module.exports = {
+  // 略
+  render: {
+    gzip: false  // ドキュメントでは object になってるが false でOK
+  },
+  // 略
+```
+
+以上がフロントエンド側のコードです。（設定変えただけ）
+
+### サーバー側 - Lambda
+
+サーバー側は Nuxt.js を Lambda で動作させるために [Express](http://expressjs.com/ja/) を用います。
+なぜ Express かというと、 AWS Labs が Express を Lambda で動かすためのライブラリ [aws-serverless-express](https://github.com/awslabs/aws-serverless-express)を提供しているからです。
+また、Nuxt.js のドキュメントにも Express を使った例があり、使わない手はないというところです。
+
+コードの説明に入っていく前に、Lambda でのコードの実行に関しての説明を少しだけしておきます。
+Lambda はイベントがトリガーとなり実行される仕組みになっています。
+そのため、Lambda のコードはハンドラーを用意するような形になります。  
+筆者が Lambda のコードを書く場合は、ハンドラーとメインの処理が書かれたコードを分けるようにしています。
+分ける理由はローカルでメインの処理だけローカルで実行して動作確認をしたり、テストをやりやすくするためです。
+今回も同様にハンドラーである`hander.js`とメインの処理である`app.js`に分けて記述しています。
+それぞれについて書いていきます。
+
+#### hander.js - ハンドラー
+
+ハンドラーの方は短いです。
+ハンドラー関数を定義して、aws-serverless-express の proxy 関数にハンドラー関数の引数を渡しているだけです。
+
+```JavaScript
+'use strict'
+
+const awsServerlessExpress = require('aws-serverless-express')
+const { app } = require('./app')  // Express のインスタンス
+
+const server = awsServerlessExpress.createServer(app)
+
+module.exports.handler = (event, context, callback) => {
+  awsServerlessExpress.proxy(server, event, context)
+}
+```
+
+#### app.js - メインの処理
+
+app.js では Express のインスタンスを生成しています。
+Nuxt.js を Express で動かす場合は`nuxt.render`を使います。
+[API: nuxt.render(req, res) - Nuxt.js](https://nuxtjs.org/api/nuxt-render)
+
+本来であれば Express のインスタンスに`nuxt.render`を登録するだけでよいですが、Base URL の関係で、リクエストのパスを変えてあげる必要があります。
+変えなければならない理由もまた、API Gateway です。
+API Gateway から Lambda に値が渡るときにステージのパスである`/dev/`が渡ってきません。
+そのため`nuxt.render`関数にに渡る前に`/dev/`を付加してあげる必要があります。
+
+※`dev`は環境変数として定義していて、`process.env`から取得させています。  
+※環境変数は`serverless.yml`で設定しています。
 
 ```JavaScript
 'use strict'
@@ -160,39 +292,25 @@ project_root/           # プロジェクトのルートフォルダ
 const { Nuxt } = require('nuxt')
 const express = require('express')
 const config = require('./../nuxt.config.js')
+config.dev = false  // サーバー側で開発
 
 const app = express()
 
-const setHeaders = (req, res, next) => {
-  res.removeHeader('x-powered-by')
-  res.header('no-cache', 'Set-Cookie')
-  res.header('x-xss-protection', '1; mode=block')
-  res.header('x-frame-options', 'DENY')
-  res.header('x-content-type-options', 'nosniff')
-  res.header('Cache-Control', 'max-age=120')
-  next()
-}
-
-app.use(setHeaders)
-
-const BASE_PATH = process.env.BASE_URL
-const REGEXP_BASE_PATH = new RegExp(`^${BASE_PATH}`)
-
+// Base URL の設定
+const BASE_URL = process.env.BASE_URL
+const REGEXP_BASE_URL = new RegExp(`^${BASE_URL}`)
+const BASE_URL_TO_BE_ADDED = BASE_URL.replace(/\/$/, '')
 const buildPath = (originalPath) => {
-  if (REGEXP_BASE_PATH.test(originalPath) === true) {
+  if (REGEXP_BASE_URL.test(originalPath) === true) {
     return originalPath
   }
-  const basePath = BASE_PATH.replace(/\/$/, '')
-  return `${basePath}${originalPath}`
+  return `${BASE_URL_TO_BE_ADDED}${originalPath}`
 }
 
-config.dev = false
+// Nuxt.js の render 関数にもろもろ渡す
 const nuxt = new Nuxt(config)
-
 app.use((req, res, next) => {
   req.url = buildPath(req.url)
-  console.log('Request URL: ', req.url)
-
   nuxt.render(req, res, next)
 })
 
@@ -201,9 +319,42 @@ module.exports.app = app
 
 ## まとめ
 
+盛り沢山な内容になってしまいました。
+全体を通して API Gateway が問題児に見えてしまっているかもしれません。
+まあそれはそうで、API Gateway は名前の通り API を提供することが目的であり、webサーバーとして使うことに特化しているわけではありません。
+色々めんどうな手間も仕方ないことだと割り切りましょう。
+
+しかし、カスタムドメインを使うことでめんどうな手間もほぼ解消することができます。
+基本的にめんどうな手間となっていたのは、Base URL が必要だからでした。  
+Nuxt.js を Lambda で動かす上で API Gateway を経由する必要はありますが、API Gateway でもカスタムドメインを設定できますし、CloudFront を API Gateway の前に置くことでカスタムドメインを設定することもできます。
+（個人的なおすすめは CloudFront です。この話は理想の話として補足に書いています。）
+
+一応ここで中締めとします。
+明日は[sunecosuri](https://qiita.com/sunecosuri)さんです。
+公開されたら、この辺りにリンクを貼っておきます。
+
+下に補足として、色々書いてるのでよかったら見てください。
+
 ## 参考記事集
 
 * [Nuxt.js - Universal Vue.js Applications](https://nuxtjs.org/)
 * [AWS Lambda (サーバーレスでコードを実行・自動管理) | AWS](https://aws.amazon.com/jp/lambda/)
 * [Vue.js製フレームワークNuxt.jsではじめるUniversalアプリケーション開発 | HTML5Experts.jp](https://html5experts.jp/potato4d/24346/)
 * [AWS LambdaでSSRやってみた Vue.js編](https://mya-ake.com/slides/vuejs-ssr-on-lambda)
+
+## 補足
+
+### Nuxt.js を Lambda で動かす際の理想の話
+
+
+### Lambda のデプロイパッケージをなぜ小さくするのか？
+
+これに関しては Lambda の制限が関連してきます。
+[AWS Lambda の制限 - AWS Lambda](http://docs.aws.amazon.com/ja_jp/lambda/latest/dg/limits.html)の
+「AWS Lambda デプロイメントの制限」に書かれているのですが、Lambda 関数デプロイパッケージのサイズ (圧縮 .zip/.jar ファイル)は*50MB*となっています。
+今回のサンプルのコードでも20MB弱あります。
+また、リージョンあたりの、アップロードできるすべてのデプロイパッケージの合計サイズも75GBと制限があります。
+けっこう大きい数字に思えるかもしれませんが、Lambda をメインに使うようなマイクロサービスを構成していると割りとすぐに到達してしまうと考えられます。
+そのため、可能な限り小さくしておいた方が後々のためになります。
+
+
