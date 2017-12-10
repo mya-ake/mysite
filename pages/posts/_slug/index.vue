@@ -15,24 +15,37 @@
       </div>
     </header>
     <section v-html="content.body" class="content__body"></section>
+
+    <section>
+      <h2 class="visually-hidden">SNS シェア</h2>
+      <SnsShare
+        v-bind:title="buildedTitle"
+        v-bind:path="path"
+      />
+    </section>
   </article>
 </template>
 
 <script>
+import SnsShare from '~/components/SnsShare'
+
 import { CONTENTS_ACTION_TYPES } from '~/store/contents'
 
 export default {
-  async fetch ({ params, store, error }) {
+  async asyncData ({ params, store, error }) {
     const path = `posts/${params.slug}`
     const status = await store.dispatch(CONTENTS_ACTION_TYPES.GET_CONTENT, path)
     if (status !== 200) {
       error({ statusCode: status })
     }
+    return {
+      path: path,
+    }
   },
 
   head () {
     return {
-      title: this.buildTitle(),
+      title: this.buildedTitle,
       meta: [
         { hid: 'description', name: 'description', content: this.$store.state.contents.content.description },
       ],
@@ -43,10 +56,8 @@ export default {
     content () {
       return this.$store.state.contents.content
     },
-  },
 
-  methods: {
-    buildTitle () {
+    buildedTitle () {
       return `${this.$store.state.contents.content.title} - mya-ake.com`
     },
   },
@@ -55,6 +66,10 @@ export default {
     hyphenToDot (value) {
       return value.replace(/-/g, '.')
     },
+  },
+
+  components: {
+    SnsShare,
   },
 }
 </script>
