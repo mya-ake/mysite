@@ -1,7 +1,7 @@
 @import '_variables.scss';
 
 .content {
-  max-width: 680px;
+  max-width: 50em;
   margin: 0 auto;
 }
 
@@ -131,6 +131,7 @@
     pointer-events: auto;
 
     code {
+      padding: .5em;
       color: #ddd;
     }
   }
