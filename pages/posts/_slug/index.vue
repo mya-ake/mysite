@@ -57,12 +57,23 @@ export default {
     return {
       title: this.buildedTitle,
       meta: [
-        { hid: 'description', name: 'description', content: this.$store.state.contents.content.description },
+        { hid: 'description', name: 'description', content: this.description },
+        { hid: 'og:title', property: 'og:title', content: this.buildedTitle },
+        { hid: 'og:description', property: 'og:description', content: this.description },
+        { hid: 'twitter:title', name: 'twitter:title', content: this.buildedTitle },
+        { hid: 'twitter:description', name: 'twitter:description', content: this.description },
+      ],
+      link: [
+        { rel: 'canonical', href: `https://mya-ake.com/${this.path}` },
       ],
     }
   },
 
   computed: {
+    description () {
+      return this.$store.state.contents.content.description
+    },
+
     content () {
       return this.$store.state.contents.content
     },
