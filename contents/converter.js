@@ -163,6 +163,17 @@ const removeBeforeAndAfterNewLine = (html) => {
   return html.replace(/^\n*|\n*$/g, '')
 }
 
+const replaceAdContent1 = (html) => {
+  return html.replace(/\[ad-content-1\]/,
+    `<ins class="adsbygoogle"
+    style="display:block; text-align:center;"
+    data-ad-layout="in-article"
+    data-ad-format="fluid"
+    data-ad-client="ca-pub-9428775704052737"
+    data-ad-slot="2502459394"></ins>`
+  )
+}
+
 const buildJson = (html) => {
   const [removeHtmlTitle, title] = extractTitle(html) || ['', '']
   const [removeHtmlDesciption, description] = extractDescription(html) || ['', '']
@@ -173,6 +184,7 @@ const buildJson = (html) => {
   html = appendCodeHljsClass(html)
   html = removeEmptyPTag(html)
   html = removeBeforeAndAfterNewLine(html)
+  html = replaceAdContent1(html)
 
   return {
     title,

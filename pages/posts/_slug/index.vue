@@ -23,6 +23,12 @@
         v-bind:path="path"
       />
     </section>
+
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9428775704052737"
+        data-ad-slot="4833732002"
+        data-ad-format="auto"></ins>
   </article>
 </template>
 
@@ -43,6 +49,10 @@ export default {
     }
   },
 
+  mounted () {
+    this.initializeAd()
+  },
+
   head () {
     return {
       title: this.buildedTitle,
@@ -59,6 +69,21 @@ export default {
 
     buildedTitle () {
       return `${this.$store.state.contents.content.title} - mya-ake.com`
+    },
+  },
+
+  methods: {
+    initializeAd () {
+      if (window.location.host !== 'mya-ake.com') {
+        return
+      }
+      Array.from(document.querySelectorAll('ins'))
+        .filter((el) => {
+          return el.getAttribute('data-adsbygoogle-status') === null
+        })
+        .forEach(() => {
+          (window.adsbygoogle = window.adsbygoogle || []).push({})
+        })
     },
   },
 

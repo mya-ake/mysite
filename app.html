@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html {{ HTML_ATTRS }}>
-  <head>
+  <head>    
+    <link rel="dns-prefetch" href="https://tagmanager.google.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">    {{ HEAD }}
+    <link rel="dns-prefetch" href="https://d-ad.dspcdn.com">
+    <link rel="dns-prefetch" href="https://ad.font.jp">
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net">
+
     {{ HEAD }}
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -24,5 +32,6 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     {{ APP }}
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   </body>
 </html>

@@ -39,7 +39,7 @@ export default {
 .shares {
   display: flex;
   justify-content: center;
-  padding: 32px 16px;
+  padding: 32px 16px 48px;
 }
 
 .share {
