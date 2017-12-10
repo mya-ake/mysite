@@ -17,7 +17,7 @@ renderer.heading = (text, level) => {
 }
 renderer.image = (href, title, text) => {
   if (title === null) {
-    return `<img src="${href}" alt="${text}">`
+    return `<img src="${href}" alt="${text}" draggable="false">`
   }
   const sizes = title.split('x')
   const sizeAttr = sizes.map((size, index) => {
@@ -28,7 +28,7 @@ renderer.image = (href, title, text) => {
       ? `width: ${size}px`
       : `height: ${size}px`
   }).join(' ')
-  return `<img src="${href}" alt="${text}" style="${sizeAttr}">`
+  return `<img src="${href}" alt="${text}" style="${sizeAttr}" draggable="false">`
 }
 
 marked.setOptions({
