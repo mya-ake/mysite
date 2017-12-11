@@ -20,7 +20,7 @@ export default {
 
   computed: {
     url () {
-      return `https://mya-ake.com/${this.path}`
+      return `https://mya-ake.com/${this.path}/`
     },
 
     twitter () {
