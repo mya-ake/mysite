@@ -29,6 +29,7 @@ module.exports = {
       { property: 'og:image', content: META.SNS_IMAGES.LARGE },
       { property: 'og:locale', content: 'ja_JP' },
       { property: 'og:url', content: META.ORIGIN },
+      { property: 'fb:app_id', content: '342713279527695' },
       { hid: 'twitter:title', name: 'twitter:title', content: META.TITLE },
       { name: 'twitter:site', content: '@mya_ake' },
       { hid: 'twitter:description', name: 'twitter:description', content: META.DESCRIPTION },
