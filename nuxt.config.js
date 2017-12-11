@@ -49,6 +49,7 @@ module.exports = {
   ],
 
   build: {
+    extractCSS: true,
     /*
     ** Run ESLINT on save
     */
