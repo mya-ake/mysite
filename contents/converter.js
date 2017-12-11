@@ -156,7 +156,7 @@ const appendCodeHljsClass = (html) => {
 }
 
 const removeEmptyPTag = (html) => {
-  return html.replace(/<p>\s*<\/p>/, '')
+  return html.replace(/<p>\s*<\/p>/g, '')
 }
 
 const removeBeforeAndAfterNewLine = (html) => {

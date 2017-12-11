@@ -12,20 +12,26 @@ Vue.jsのユニバーサルアプリケーションを作るためのフレー�
 
 この記事では [Nuxt.js](https://nuxtjs.org/) を [AWS Lambda](https://aws.amazon.com/jp/lambda/) で動かす方法について書いています。
 Nuxt.js に関する説明もありますが、全体的にサーバー構築寄りの内容になっています。  
-しかし、Node.js で AWS にデプロイまでできる [Serverless Framework](https://serverless.com/) というツールを利用していますので、AWS を使ったことがない方でも、[サンプルコード](https://github.com/mya-ake/nuxt-on-lambda)をそのまま利用することで AWS 上に環境を作れるようにしています。（AWS への登録と Credential の生成は必要ですが......）
+しかし、Node.js で AWS にデプロイまでできる [Serverless Framework](https://serverless.com/) というツールを利用しており、[サンプルコード](https://github.com/mya-ake/nuxt-on-lambda) の npm scripts を実行するだけで AWS 上に環境を作れるようにしています。（AWS への登録と Credential の生成は必要です）
 ご興味のある方はそちらも参照してみてください。
 
 
-今回は上に挙げた登場人物?たちについて簡単に説明し、なぜ SSR するのか、なぜ Lambda なのかという話もして、構成や動かすための実装コードの説明していくという盛り沢山な内容になっています。
+今回は上に挙げた登場人物?たちについて簡単に説明し、なぜ SSR するのか、なぜ Lambda なのかという話もして、AWS の構成や動かすための実装コードの説明していくという盛り沢山な内容になっています。
 
-※この記事ではパッケージマネージャーに [yarn](https://yarnpkg.com/ja/)を使っていますが、
-npmでも問題はないはずです。（すいません、npmは試してないです。
+また、先に断っておくとこの記事では API Gateway をエンドポイントとします。
+API Gateway をエンドポイントする理由は手軽に動作確認できるからです。
+（一応サンプルコードはカスタムドメインにも対応しています）
+
+
+
+※この記事ではパッケージマネージャーに [yarn](https://yarnpkg.com/ja/) を使っていますが、
+npm でも問題はないはずです。（すいません、npm は試してないです。
 
 ### 対象読者
 
 * Vue.js のSSR（サーバーサイドレンダリング）に興味がある方
 * Nuxt.js をどういうサーバーで稼働させようか考えている方
-* AWS Lambdaでやろうとして上手くいかなかった方
+* AWS Lambda を検討している方
 
 ### 登場人物?たち
 
@@ -38,11 +44,19 @@ npmでも問題はないはずです。（すいません、npmは試してな�
 * [Nuxt.js](#Nuxt.js)
 * [AWS Lambda](#AWS_Lambda)
 * [Serverless Framework](#Serverless_Framework)
-* [なぜSSR？なぜLambda？](#なぜSSR？なぜLambda？)
-* [サーバー構成](#サーバー構成)
+* [なぜ SSR？ なぜ Lambda？](#なぜ_SSR？なぜ_Lambda？)
+* [サーバー構成やフォルダ構成](#サーバー構成やフォルダ構成)
+  * [サーバー構成](#サーバー構成)
+  * [フォルダ構成](#フォルダ構成)
 * [実装コードの説明](#実装コードの説明)
+  * [フロントエンド側 - Nuxt.js](フロントエンド側_-_Nuxt.js)
+  * [サーバー側 - Lambda](サーバー側_-_Lambda)
 * [まとめ](#まとめ)
 * [参考記事集](#参考記事集)
+* [補足](#補足)
+  * [Nuxt.js を Lambda で動かす際の理想の話](#Nuxt.js を Lambda で動かす際の理想の話)
+  * [Lambda のデプロイパッケージをなぜ小さくするのか？](#Lambda のデプロイパッケージをなぜ小さくするのか？)
+  * [サンプルコードのデプロイコマンド](#サンプルコードのデプロイコマンド)
 
 [ad-content-1]
 
@@ -54,7 +68,7 @@ Nuxt.js は 冒頭でも書いたとおり Vue.js のユニバーサルアプリ
 
 その Nuxt.js の特徴を挙げると下記のような感じです。
 
-* SSRサポート
+* SSR サポート
 * 整った開発環境
   * Babel
   * ローカルサーバー（ホットリロード有り）
@@ -65,7 +79,7 @@ Nuxt.js は 冒頭でも書いたとおり Vue.js のユニバーサルアプリ
 また、公式が用意している[スターターテンプレート](https://github.com/nuxt-community/starter-template)を使うことで ESLint の設定まで含まれた状態で始めることもできます。
 
 このサイト自体も Nuxt.js を利用して制作しています。
-まだ開発途中で前に作ったサイトと同居状態なのですが、Nuxt.js の静的サイトジェネレーターの機能を使い、このページだけ独立したHTMLとして出力させてサーバーに置いています。
+まだ開発途中で前に作ったサイトと同居状態なのですが、Nuxt.js の静的サイトジェネレーターの機能を使い、このページだけ独立した HTML として出力させてサーバーに置いています。
 
 今回の主題は Nuxt.js ではないので紹介はこの程度に留めます。
 Nuxt.js についてさらに知りたい方は [potato4d](https://twitter.com/potato4d)さんの[Vue.js製フレームワークNuxt.jsではじめるUniversalアプリケーション開発 | HTML5Experts.jp](https://html5experts.jp/potato4d/24346/)に詳しく書かれているので、そちらをご参照いただくことをオススメします。
@@ -76,30 +90,30 @@ AWS Lambda はサーバーレスと言われる分野で使われている代表
 使った分だけ課金される AWS のコンピューティングサービスです。FaaS (Function as a Service) とも呼ばれたりします。
 コードをアップするだけで稼働し、スケーリングも自動で行われるので、サーバーの管理を煩わしく思うような人におすすめです。
 
-Node.js や Python、Java など様々な ランタイムがあり、自分のやりやすい言語を選択して利用できます。最近ラスベガスで行われた AWS re:Invent 2017 では、Go言語 と .NET Core が使えるようになると発表があり、今後も使える言語は増えることが予想されます。  
+Node.js や Python、Java など様々な ランタイムがあり、自分のやりやすい言語を選択して利用できます。最近ラスベガスで行われた AWS re:Invent 2017 では、Go言語 と .NET Core が使えるようになると発表があり今後も使える言語は増えることが予想されます。  
 今回は Nuxt.js を動かしたいのでランタイムは Node.js を使います。
 
 
 ## Serverless Framework
 
 Serverless Framework は AWS Lambda へのデプロイを手軽に行えるようにしてくれるツールです。
-Node.js の環境があれば動くので、Nuxt.js を使う環境であればすぐに導入できると思います。
-また、コードベースで設定を管理できるので、同じ環境を作るのも手軽にできます。
+Node.js の環境があれば動かすことができるので、Nuxt.js を使う環境であればすぐに導入できると思います。
+また、コードベース（ymlファイル）で設定を管理できるので、同じ環境を作るのも手軽にできます。
 今回の設定などは [GitHub](https://github.com/mya-ake/nuxt-on-lambda)に置いているので、ほぼそのまま使うことができると思います。
 
-## なぜSSR？なぜLambda？
+## なぜ SSR？なぜ Lambda？
 
-なぜSSRするか、なぜLambdaを使うかという話は、[Serverless Meetup Fukuoka #1](https://serverless.connpass.com/event/62473/)というイベントで[AWS LambdaでSSRやってみた Vue.js編](https://mya-ake.com/slides/vuejs-ssr-on-lambda)というLTをしてきたので、そちらをご覧いただけると幸いです。
+なぜ SSR するか、なぜ Lambda を使うかという話は、[Serverless Meetup Fukuoka #1](https://serverless.connpass.com/event/62473/)というイベントで『[AWS LambdaでSSRやってみた Vue.js編](https://mya-ake.com/slides/vuejs-ssr-on-lambda)』という LT をしてきたので、そちらをご覧いただけると幸いです。
 
-ざっくりなぜSSRするかをまとめると
+ざっくりなぜ SSR するかをまとめると
 
-* Googlebotに正しくサイトを認識してもらうため
+* Googlebot に正しくサイトを認識してもらうため
 * ファーストビューの速度改善
-* OGPへの対応
+* OGP への対応
 
 ざっくりなぜLambdaを使うかをまとめると
 
-* 1リクエストで1Lambdaが動くので、突発的なアクセスなどに強い
+* １リクエストで１ Lambda が動くので、突発的なアクセスなどに強い
 * サーバーの管理をあまりしたくない
 * 安い
 
@@ -116,7 +130,7 @@ Lambda で Nuxt.js を動かし、API Gateway 経由で公開します。
 ![API Gateway 経由で Lambda にアクセスしている図](/images/nuxtjs-on-aws-lambda/api_gw_architecture.svg)
 
 AWS の設定などは面倒なので、Serverless Framework でやってしまいます。
-サンプルコードでは下記コマンドで AWS の設定まで含んだデプロイが完了するようになっています。
+サンプルコードでは下記のコマンドで AWS 側の設定まで含んだデプロイが完了するようになっています。
 
 ```
 $ yarn deploy:api_gw
@@ -138,7 +152,7 @@ project_root/           # プロジェクトのルートフォルダ
   ├ nuxt.config.js     # Nuxt.js の設定ファイル
   ├ package.json      # npmの設定ファイル
   ├ serverless.yml    # Serverless Framework の設定ファイル
-  └ yarn.lock              # npmモジュールのバージョン管理ファイル
+  └ yarn.lock            # npmモジュールのバージョン管理ファイル
 ```
 
 メインのアプリケーションとなる Nuxt.js のフォルダはデプロイがしやすいように app フォルダにまとめています。
@@ -167,10 +181,8 @@ project_root/           # プロジェクトのルートフォルダ
 
 #### 1. srcDirの設定
 
-srcDirを設定することで１つのフォルダにまとめることができ、デプロイがやりやすくなります。
-また、今回はサーバー側のコードもプロジェクトのフォルダに存在しているため、明確に分ける目的もあります。  
-サーバーで稼働させる時はビルド後のコードを利用するため、自分たちで書いたコードをサーバーにデプロイする必要はありません。
-app フォルダにまとまっていると Serverless Framework のパッケージング時に除外しやすくなります。  
+srcDir を設定することで１つのフォルダにまとめることができ、デプロイがやりやすくなります。
+また、今回はサーバー側のコードもプロジェクトのフォルダに存在しているため、明確に分けるという目的もあります。  
 app フォルダにまとめる設定は簡単で、`nuxt.config.js`に`srcDir`プロパティを設定するだけでできます。
 ```JavaScript
 module.exports = {
@@ -180,6 +192,9 @@ module.exports = {
 }
 ```
 srcDirについて: [API: srcDir プロパティ - Nuxt.js](https://ja.nuxtjs.org/api/configuration-srcdir)
+
+※サーバーで稼働させる時はビルド後のコードを利用するため、自分たちで書いたコードをサーバーにデプロイする必要はありません。
+app フォルダにまとまっていると Serverless Framework のパッケージング時に除外しやすくなります。  
 
 
 #### 2. Base URL の設定（base タグ設定）
@@ -197,7 +212,7 @@ https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
 このステージのパスは省略ができません。
 そのため、１階層下がる前提で考える必要があります。  
 Nuxt.js では JS などのリソースのパスはルートパス（`/assets/app.js`のような書き方）で出力されます。
-このままだと`https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/assets/app.js`を参照してしまいリソースを取得できなくなってしまいます。
+このままだと`https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/assets/app.js`を参照してしまいリソースを取得できません。
 これを解消するには Base URL を設定してあげる必要があります。  
 Base URL を設定すると head タグに 
 ```HTML
@@ -226,7 +241,7 @@ Nuxt.js はデフォルトで gzip の機能が備わっています。
 そのため、2重に gzip がかかった状態になってしまい、ブラウザがデコードできないのだと推測されます。
 
 というわけで、 Nuxt.js の gzip を無効化します。
-ただし、Nuxt.js のドキュメント（[API: The render Property - Nuxt.js（英語）](https://nuxtjs.org/api/configuration-render#gzip)）を見てみても無効化の仕方は書いてありません。（日本語の方は設定の仕方が古いようです。）  
+ただし、Nuxt.js のドキュメント（[API: The render Property - Nuxt.js（英語）](https://nuxtjs.org/api/configuration-render#gzip)）を見てみても無効化の仕方は書いてありません。（日本語の方にも書いてありません。）  
 仕方ないので Nuxt.js のコードを覗いてみると Falsy な値を設定させれば無効化できそうです。（[コードはこちら](https://github.com/nuxt/nuxt.js/blob/dev/lib/core/renderer.js#L198)）
 
 gzip の無効化は render プロパティで設定できます。
@@ -239,7 +254,7 @@ module.exports = {
   // 略
 ```
 
-以上がフロントエンド側のコードです。（設定変えただけ）
+以上がフロントエンド側のコードです。（設定を数行加えただけ）
 
 ### サーバー側 - Lambda
 
@@ -284,7 +299,7 @@ Nuxt.js を Express で動かす場合は`nuxt.render`を使います。
 API Gateway から Lambda に値が渡るときにステージのパスである`/dev/`が渡ってきません。
 そのため`nuxt.render`関数にに渡る前に`/dev/`を付加してあげる必要があります。
 
-※`dev`は環境変数として定義していて、`process.env`から取得させています。  
+※`/dev/`が入っている`BASE_URL`は環境変数として定義していて、`process.env`から取得させています。  
 ※環境変数は`serverless.yml`で設定しています。
 
 ```JavaScript
@@ -297,11 +312,13 @@ config.dev = false  // サーバー側で開発
 
 const app = express()
 
-// Base URL の設定
+// Base URL のあれこれ
 const BASE_URL = process.env.BASE_URL
 const REGEXP_BASE_URL = new RegExp(`^${BASE_URL}`)
 const BASE_URL_TO_BE_ADDED = BASE_URL.replace(/\/$/, '')
-const buildPath = (originalPath) => {
+
+// リクエストのパスに/dev/を追加する関数
+const buildPath = (originalPath) => { 
   if (REGEXP_BASE_URL.test(originalPath) === true) {
     return originalPath
   }
@@ -318,6 +335,8 @@ app.use((req, res, next) => {
 module.exports.app = app
 ```
 
+以上がサーバー側のコードです。
+
 ## まとめ
 
 盛り沢山な内容になってしまいました。
@@ -328,15 +347,22 @@ module.exports.app = app
 しかし、カスタムドメインを使うことでめんどうな手間もほぼ解消することができます。
 基本的にめんどうな手間となっていたのは、Base URL が必要だからでした。  
 Nuxt.js を Lambda で動かす上で API Gateway を経由する必要はありますが、API Gateway でもカスタムドメインを設定できますし、CloudFront を API Gateway の前に置くことでカスタムドメインを設定することもできます。
-（個人的なおすすめは CloudFront です。この話は理想の話として補足に書いています。）  
-一応サンプルではカスタムドメインを使用することも考慮して、下記コマンドを用意しています。
+（個人的なおすすめは CloudFront です。この話は[理想の話](Nuxt.js を Lambda で動かす際の理想の話)として補足に書いています。）  
+一応サンプルではカスタムドメインを使用することも考慮して、下記のコマンドを用意しています。
 
 ```
 $ yarn deploy
 ```
 
-このコマンドでデプロイした場合 Base URL が`/`になり、設定しなかった場合と同様になります。
+このコマンドでデプロイした場合は Base URL が`/`になり、設定しなかった場合と同様になります。
 カスタムドメインを設定する前提の場合はこちらのコマンドを利用してください。
+
+さて、最初から
+API Gateway で動かさないならそんな手間ではないのではないかと思った方も多いのではないでしょうか。
+その通りです。
+もし Base URL の設定をしなければ、 gzip を解除して、 Lambda 側のコードだけを用意すればよいです。
+
+
 
 一旦ここで中締めとします。
 明日は[sunecosuri](https://qiita.com/sunecosuri)さんです。
@@ -353,13 +379,16 @@ $ yarn deploy
 
 ## 補足
 
+ここからは補足的な内容になってます。
+
+
 ### Nuxt.js を Lambda で動かす際の理想の話
 
 先に全体像となる構成図から。
 
 ![CloudFrontで分岐し、リソースはS3、HTMLはAPI Gatewayから取得する構成図](/images/nuxtjs-on-aws-lambda/ideal_architecture.svg)
 
-AWS のサービスのそれぞれの役割は下記のようになってます。
+AWS のサービスのそれぞれの役割は次のようになってます。
 
 * CloudFront
   * キャッシュ
@@ -393,4 +422,33 @@ AWS のサービスのそれぞれの役割は下記のようになってます�
 けっこう大きい数字に思えるかもしれませんが、Lambda をメインに使うようなマイクロサービスを構成していると割りとすぐに到達してしまうと考えられます。
 そのため、可能な限り小さくしておいた方が後々のためになります。
 
+### サンプルコードのデプロイコマンド
 
+サンプルコードでは下記のコマンドで API Gateway をエンドポイントとしたデプロイが行えます。
+
+```
+$ yarn deploy:api_gw
+```
+
+正常に処理が完了すれば下記のように生成されたエンドポイントが表示されると思います。（そこそこ時間がかかります。）
+
+```
+Service Information
+service: nuxt-on-lambda
+stage: dev
+region: ap-northeast-1
+stack: nuxt-on-lambda-dev
+api keys:
+  None
+endpoints:
+  GET - https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
+  GET - https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/{proxy+}
+functions:
+  handler: nuxt-on-lambda-dev-handler
+```
+
+また、カスタムドメインを使用する場合は下記のコマンドでデプロイできます。
+
+```
+$ yarn deploy
+```
