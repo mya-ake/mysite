@@ -176,6 +176,18 @@ const replaceAdContent1 = (html) => {
   )
 }
 
+const replaceAdContent2 = (html) => {
+  return html.replace(/\[ad-content-2\]/,
+    `<div class="content__ad">
+    <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-9428775704052737"
+    data-ad-slot="5032208407"
+    data-ad-format="auto"></ins>
+    </div>`
+  )
+}
+
 const buildJson = (html) => {
   const [removeHtmlTitle, title] = extractTitle(html) || ['', '']
   const [removeHtmlDesciption, description] = extractDescription(html) || ['', '']
@@ -187,6 +199,7 @@ const buildJson = (html) => {
   html = removeEmptyPTag(html)
   html = removeBeforeAndAfterNewLine(html)
   html = replaceAdContent1(html)
+  html = replaceAdContent2(html)
 
   return {
     title,

@@ -370,6 +370,10 @@ $ yarn deploy
 * [Vue.js製フレームワークNuxt.jsではじめるUniversalアプリケーション開発 | HTML5Experts.jp](https://html5experts.jp/potato4d/24346/)
 * [AWS LambdaでSSRやってみた Vue.js編](https://mya-ake.com/slides/vuejs-ssr-on-lambda)
 
+
+[ad-content-2]
+
+
 ## 補足
 
 ここからは補足的な内容になってます。
