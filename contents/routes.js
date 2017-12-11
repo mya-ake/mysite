@@ -1,6 +1,7 @@
 module.exports = [
-  '/about',
-  '/works',
-  '/slides',
-  '/contact',
+  '/posts/nuxtjs-on-aws-lambda',
+  // '/about',
+  // '/works',
+  // '/slides',
+  // '/contact',
 ]
