@@ -47,7 +47,7 @@ export default {
   width: 100%;
   max-width: 240px;
   border: solid 2px $ct-default;
-  padding: 16px;
+  padding: 12px;
   text-align: center;
   text-decoration: none;
   font-weight: bold;
@@ -59,6 +59,7 @@ export default {
     margin-right: 8px;
   }
   @include media(small) {
+    padding: 16px;
     &:not(:last-child) {
       margin-right: 16px;
     }
