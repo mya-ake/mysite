@@ -8,7 +8,7 @@
     <nav ref="navigation" class="navigation">
       <ul class="navigation__list">
         <li v-for="(item, index) in menuItem" v-bind:key="`menu-${index}`" class="navigation__item">
-          <nuxt-link v-bind:to="item.url" class="navigation__link">{{item.name}}</nuxt-link>
+          <a v-bind:href="`${item.url}`" class="navigation__link">{{item.name}}</a>
         </li>
       </ul>
     </nav>
