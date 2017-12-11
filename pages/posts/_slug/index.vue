@@ -64,7 +64,7 @@ export default {
         { hid: 'twitter:description', name: 'twitter:description', content: this.description },
       ],
       link: [
-        { rel: 'canonical', href: `https://mya-ake.com/${this.path}` },
+        { rel: 'canonical', href: `https://mya-ake.com/${this.path}/` },
       ],
     }
   },
