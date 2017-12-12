@@ -1,9 +1,9 @@
 <template>
   <header class="header">
     <div class="site-logo">
-      <nuxt-link to="/">
+      <a href="/">
         <img v-on:click="handleClickToTop" class="logo" src="~/assets/images/mya-ake_logo_text.svg" alt="サイトのロゴ トップページへのリンク">
-      </nuxt-link>
+      </a>
     </div>
     <nav ref="navigation" class="navigation">
       <ul class="navigation__list">
