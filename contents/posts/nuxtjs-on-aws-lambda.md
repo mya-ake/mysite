@@ -37,6 +37,10 @@ npm でも問題はないはずです。（すいません、npm は試してな
 * AWS Lambda
 * Serverless Framework
 
+### サンプルコード
+
+* [GitHub](https://github.com/mya-ake/nuxt-on-lambda)
+
 ### アウトライン
 
 * [Nuxt.js](#Nuxt.js)
