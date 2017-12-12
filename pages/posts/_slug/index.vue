@@ -60,11 +60,13 @@ export default {
         { hid: 'description', name: 'description', content: this.description },
         { hid: 'og:title', property: 'og:title', content: this.buildedTitle },
         { hid: 'og:description', property: 'og:description', content: this.description },
+        { hid: 'og:url', property: 'og:url', content: this.buildedUrl },
         { hid: 'twitter:title', name: 'twitter:title', content: this.buildedTitle },
         { hid: 'twitter:description', name: 'twitter:description', content: this.description },
+        { hid: 'twitter:url', name: 'twitter:url', content: this.buildedUrl },
       ],
       link: [
-        { rel: 'canonical', href: `https://mya-ake.com/${this.path}/` },
+        { rel: 'canonical', href: this.buildedUrl },
       ],
     }
   },
@@ -80,6 +82,10 @@ export default {
 
     buildedTitle () {
       return `${this.$store.state.contents.content.title} - mya-ake.com`
+    },
+
+    buildedUrl () {
+      return `https://mya-ake.com/${this.path}/`
     },
   },
 
