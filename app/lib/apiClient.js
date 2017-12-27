@@ -28,7 +28,7 @@ const server = () => {
     get (path) {
       return new Promise((resolve) => {
         const dirname = __dirname || process.env.PWD
-        const fullpath = join(dirname, 'static', 'contents', `${path}.json`)
+        const fullpath = join(dirname, 'app', 'static', 'contents', `${path}.json`)
         try {
           const data = JSON.parse(fs.readFileSync(fullpath).toString())
           resolve({

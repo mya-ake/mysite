@@ -2,9 +2,11 @@ const path = require('path')
 
 const { META } = require('./configs/meta')
 
-const routes = require('./contents/routes')
+const routes = require('./app/contents/routes')
 
 module.exports = {
+  srcDir: 'app',
+
   env: {
     origin: process.env.ORIGIN || 'http://127.0.0.1:13000',
   },
@@ -71,8 +73,8 @@ module.exports = {
           loader: 'sass-resources-loader',
           options: {
             resources: [
-              path.join(__dirname, 'assets', 'scss', '_variables.scss'),
-              path.join(__dirname, 'assets', 'scss', '_mixins.scss'),
+              path.join(__dirname, 'app', 'assets', 'scss', '_variables.scss'),
+              path.join(__dirname, 'app', 'assets', 'scss', '_mixins.scss'),
             ],
           },
         })
