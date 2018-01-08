@@ -4,13 +4,13 @@
 Vue.jsのユニバーサルアプリケーションを作るためのフレームワークであるNuxt.jsをAWS Lambdaで動かす方法について書かれている記事です。
 @@
 
-==2017-12-12==
+==2017-12-12,2018-01-09==
 
 ## この記事について
 
 この記事は[Vue.js #2 Advent Calendar 2017 - Qiita](https://qiita.com/advent-calendar/2017/vue2)の12日目の記事です。
 
-この記事では [Nuxt.js](https://nuxtjs.org/) を [AWS Lambda](https://aws.amazon.com/jp/lambda/) で動かす方法について書いています。
+この記事では [Nuxt.js](https://nuxtjs.org/)（v1.0.0-rc11） を [AWS Lambda](https://aws.amazon.com/jp/lambda/) で動かす方法について書いています。
 Nuxt.js に関する説明もありますが、全体的にサーバー構築寄りの内容になっています。  
 しかし、Node.js で AWS にデプロイまでできる [Serverless Framework](https://serverless.com/) というツールを利用しており、[サンプルコード](https://github.com/mya-ake/nuxt-on-lambda) の npm scripts を実行するだけで AWS 上に環境を作れるようにしています。（AWS への登録と Credential の生成は必要です）
 ご興味のある方はそちらも参照してみてください。
@@ -24,6 +24,14 @@ API Gateway をエンドポイントする理由は待ち時間が少なく手�
 
 ※この記事ではパッケージマネージャーに [yarn](https://yarnpkg.com/ja/) を使っていますが、
 npm でも問題はないはずです。（すいません、npm は試してないです。
+
+
+### 注意事項 Nuxt.js のバージョンについて
+
+この記事で扱っている Nuxt.js のバージョンは **v1.0.0-rc11** です。
+2018/01/09にリリースされた v1.0.0 には対応していません。
+理由は v1.0.0 は Node.js のバージョンが v8.0.0 以上を対象としており、AWS Lambda のランタイムに存在しないバージョンだからです。  
+早く AWS Lambda に Node.js v8.x が追加されることを心待ちにしています。
 
 ### 対象読者
 
