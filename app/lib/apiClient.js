@@ -6,8 +6,9 @@ const client = () => {
   })
   return {
     async get (path) {
+      const requestUrl = `contents/${path}.json`
       try {
-        return await apiClient.get(path)
+        return await apiClient.get(requestUrl)
       } catch (err) {
         return err.response
       }
