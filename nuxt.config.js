@@ -84,6 +84,9 @@ module.exports = {
   // router: {
   //   middleware: 'router',
   // },
+  plugins: [
+    '~/plugins/errorHandler',
+  ],
 
   generate: {
     routes: routes,
