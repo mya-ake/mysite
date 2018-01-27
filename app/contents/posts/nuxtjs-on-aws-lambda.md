@@ -1,4 +1,4 @@
-# Nuxt.js on AWS Lambda
+# Nuxt.js on AWS Lambda with Serverless Framework
 
 @@
 Vue.jsのユニバーサルアプリケーションを作るためのフレームワークであるNuxt.jsをAWS Lambdaで動かす方法について書かれている記事です。
