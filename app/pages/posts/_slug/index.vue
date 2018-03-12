@@ -100,7 +100,11 @@ export default {
         })
         .forEach(() => {
           (window.adsbygoogle = window.adsbygoogle || []).push({})
-        })
+        });
+      (window.adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: 'ca-pub-9428775704052737',
+        enable_page_level_ads: true,
+      })
     },
   },
 
