@@ -23,6 +23,7 @@ export const state = () => {
       title: '',
       description: '',
       body: '',
+      thumbnail: '',
       createdAt: '',
       updatedAt: '',
     },
@@ -36,6 +37,7 @@ export const mutations = {
         title: '',
         description: '',
         body: '',
+        thumbnail: '',
         createdAt: '',
         updatedAt: '',
       }
@@ -44,6 +46,7 @@ export const mutations = {
         title: payload.title,
         description: payload.description,
         body: payload.body,
+        thumbnail: payload.thumbnail,
         createdAt: payload.createdAt,
         updatedAt: payload.updatedAt,
       }

@@ -54,9 +54,7 @@ export default {
   },
 
   head () {
-    return {
-      title: this.buildedTitle,
-      meta: [
+    const meta = [
         { hid: 'description', name: 'description', content: this.description },
         { hid: 'og:title', property: 'og:title', content: this.buildedTitle },
         { hid: 'og:description', property: 'og:description', content: this.description },
@@ -64,7 +62,17 @@ export default {
         { hid: 'twitter:title', name: 'twitter:title', content: this.buildedTitle },
         { hid: 'twitter:description', name: 'twitter:description', content: this.description },
         { hid: 'twitter:url', name: 'twitter:url', content: this.buildedUrl },
-      ],
+    ]
+
+    if (this.content.thumbnail !== '') {
+      meta.push({ hid: 'og:image', property: 'og:image', content: this.buildedThumbnail })
+      meta.push({ hid: 'twitter:image', name: 'twitter:image', content: this.buildedThumbnail })
+      meta.push({ hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' })
+    }
+
+    return {
+      title: this.buildedTitle,
+      meta,
       link: [
         { rel: 'canonical', href: this.buildedUrl },
       ],
@@ -82,6 +90,10 @@ export default {
 
     buildedTitle () {
       return `${this.$store.state.contents.content.title} - mya-ake.com`
+    },
+
+    buildedThumbnail () {
+      return `https://mya-ake.com${this.content.thumbnail}`
     },
 
     buildedUrl () {

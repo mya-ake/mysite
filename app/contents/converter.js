@@ -151,6 +151,10 @@ const extractDate = (html) => {
   return html.match(/==([0-9\\-]+),?([0-9\\-]+)?==/)
 }
 
+const extractThumbnail = (html) => {
+  return html.match(/\+\+(.*?)\+\+/)
+}
+
 const appendCodeHljsClass = (html) => {
   return html.replace(/<pre><code( class="([a-zA-Z\\-]+)")?>/g, '<pre><code class="hljs $2">')
 }
@@ -192,9 +196,11 @@ const buildJson = (html) => {
   const [removeHtmlTitle, title] = extractTitle(html) || ['', '']
   const [removeHtmlDesciption, description] = extractDescription(html) || ['', '']
   const [removeHtmlDate, createdAt, updatedAt] = extractDate(html) || ['', '', '']
+  const [removeHtmlThumbnail, thumbnail] = extractThumbnail(html) || ['', '']
   html = html.replace(removeHtmlTitle, '')
           .replace(removeHtmlDesciption, '')
           .replace(removeHtmlDate, '')
+          .replace(removeHtmlThumbnail, '')
   html = appendCodeHljsClass(html)
   html = removeEmptyPTag(html)
   html = removeBeforeAndAfterNewLine(html)
@@ -205,6 +211,7 @@ const buildJson = (html) => {
     title,
     description,
     body: html,
+    thumbnail,
     createdAt,
     updatedAt,
   }
