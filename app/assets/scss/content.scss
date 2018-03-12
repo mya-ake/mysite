@@ -52,7 +52,6 @@
   h5,
   h6,
   p,
-  blockquote,
   pre,
   table {
     margin: 0 0 16px;
@@ -148,5 +147,10 @@
 
   em {
     font-weight: bold;
+  }
+
+  blockquote {
+    margin: 0 16px 16px;
+    border-left: solid 4px $cb-default;
   }
 }
