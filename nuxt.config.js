@@ -41,6 +41,9 @@ module.exports = {
     ],
     link: [
     ],
+    script: [
+      { src: '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', async: '' },
+    ],
   },
 
   loading: { color: '#3B8070' },
