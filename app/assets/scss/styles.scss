@@ -23,7 +23,6 @@ body {
   letter-spacing: .04em;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: unset;
-  pointer-events: none;
 
   padding-top: constant(safe-area-inset-top);
   padding-right: constant(safe-area-inset-right);
@@ -32,7 +31,6 @@ body {
 
   @include media(small) {
     font-size: 1.6rem;
-    pointer-events: auto;
   }
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
