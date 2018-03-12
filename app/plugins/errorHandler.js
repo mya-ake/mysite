@@ -39,11 +39,11 @@ const addWindowErrorHandoler = (isDev) => {
   }
 }
 
-export default ({ isDev, isClient }) => {
+export default ({ isDev }) => {
   // Vueのエラーハンドリング
   addVueErrorHandler(isDev)
 
-  if (isClient === true) {
+  if (process.client === true) {
     // windowのエラーハンドリング（クライアント時のみ）
     addWindowErrorHandoler(isDev)
   }
