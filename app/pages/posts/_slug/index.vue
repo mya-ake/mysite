@@ -40,12 +40,14 @@ import { CONTENTS_ACTION_TYPES } from '~/store/contents'
 export default {
   async asyncData ({ params, store, error }) {
     const path = `posts/${params.slug}`
-    const status = await store.dispatch(CONTENTS_ACTION_TYPES.GET_CONTENT, path)
+    const { status, data } = await store.dispatch(CONTENTS_ACTION_TYPES.GET_CONTENT, path)
     if (status !== 200) {
       error({ statusCode: status })
+      return {}
     }
     return {
       path: path,
+      content: data,
     }
   },
 
@@ -81,15 +83,11 @@ export default {
 
   computed: {
     description () {
-      return this.$store.state.contents.content.description
-    },
-
-    content () {
-      return this.$store.state.contents.content
+      return this.content.description
     },
 
     buildedTitle () {
-      return `${this.$store.state.contents.content.title} - mya-ake.com`
+      return `${this.content.title} - mya-ake.com`
     },
 
     buildedThumbnail () {

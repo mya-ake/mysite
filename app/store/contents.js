@@ -58,11 +58,10 @@ export const actions = {
   async [ACTION_TYPES.GET_CONTENT] ({ commit }, path) {
     const response = await apiClient.get(path)
     const status = response.status
-    if (status === 200) {
-      commit(MUTATION_TYPES.SET_CONTENT, response.data)
-    } else {
+    if (status !== 200) {
+      // エラーハンドリングしないと
       commit(MUTATION_TYPES.SET_CONTENT, null)
     }
-    return status
+    return response
   },
 }
