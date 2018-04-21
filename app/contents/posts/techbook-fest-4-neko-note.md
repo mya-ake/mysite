@@ -30,11 +30,6 @@
   .book-name {
     border-right: solid 1px #e0e0e0;
   }
-  .clearfix:after {
-    clear: both;
-    content: '';
-    display: block;
-  }
   .gallery {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -53,13 +48,15 @@
     .book-info img {
       max-width: 280px;
     }
+    .sc img {
+      max-width: 280px;
+    }
   }
 </style>
 
 <div class="logo-wrapper">
 ![neko-noteのロゴ](/images/neko-note/logo_nekonote.svg)
 </div>
-
 
 ## 頒布物の情報だけ見たい人へ
 
@@ -91,15 +88,14 @@ mya-akeが集めたメンバーで構成されたサークルです。
 著：[@mya_ake](https://twitter.com/mya_ake)  
 ページ数：77
 
-<div class="book-info clearfix">
+<div class="book-info">
 ![現場で使えるVue.js tips集 表紙](/images/neko-note/vuejs_hyoshi.jpg)
 </div>
 
-この本は筆者（このサイト主でありサークル主）が1年弱ぐらいVue.js（Nuxt.js）のアプリケーションを複数作って得た知見の集まりです。
-アプリケーションとある通り、web制作の知見ではありません。
-そもそもアプリケーションというものは、継続的に開発、運用されていくものです。
+この本は筆者（このサイト主でありサークル主）が1年弱ぐらいVue.js（Nuxt.js）のwebアプリケーションを複数作って得た知見の集まりです。
+アプリケーションというものは、継続的に開発、運用されていくものです。
 そのため堅実であり拡張性が求められます。
-それを踏まえて小さく作り、テストを書くということを主眼において書きました。  
+それを踏まえて機能の粒度を小さく作り、テストを書くということを主眼において書きました。
 
 あとこの本、**かわいい表紙のくせに中身はかわいくない**です。
 [技術書典](https://techbookfest.org/event/tbf04)の[サークル詳細](https://techbookfest.org/event/tbf04/circle/19150009)にも書いているのですが、初心者向けではありません。
@@ -116,13 +112,14 @@ JSのclassなどの知識がないと難しい内容になっているのでは�
 それなりの値段設定をしたので、購入して挫折してほしくはないなと考えています。
 しれっと説明なしに「こんな機能あったの！？」みたいなコードが出てくると思うので、なんか内容はよくわからんけどそういうものを探すみたいな楽しみ方をするのもよいかもしれません。
 
+[Twitter](https://twitter.com/mya_ake/status/986513473810018304)で良いねが100超えてて注目度は高いようです。
 
 ### 知らないと損するCSS
 
 著：[mi](https://twitter.com/mi_upto)  
 ページ数：44
 
-<div class="book-info clearfix">
+<div class="book-info">
 ![知らないと損するCSS 表紙](/images/neko-note/css.png)
 </div>
 
@@ -144,7 +141,7 @@ JSのclassなどの知識がないと難しい内容になっているのでは�
 著：[うぇい](https://twitter.com/weyhok)  
 ページ数：12
 
-<div class="book-info clearfix">
+<div class="book-info">
 ![デザインのうすい本](/images/neko-note/design_usui.jpg)
 </div>
 
@@ -203,7 +200,7 @@ JSのclassなどの知識がないと難しい内容になっているのでは�
     </tr>
     <tr class="row">
       <td>DLカード</td>
-      <td>200</td>
+      <td>100</td>
       <td>500円</td>
     </tr>
     <tr class="row">
@@ -244,11 +241,15 @@ JSのclassなどの知識がないと難しい内容になっているのでは�
 ## まとめ
 
 筆者自身、技術書典などの同人即売会というイベント自体が初参加なので、勝手がつかめておりません！
-そしてチェック数も200を超えようとしています（4/21 07:00時点で194）。
+そしてチェック数も200を超えようとしています（4/21 09:30時点で195）。
 大丈夫でしょうか、不安です。
 販売時に至らぬところがあったらすいません。
 
-合計頒布数は800とかどんなペースで売ったら完売するんだって数があるので、全て売り切れるということはないと思います（ないよね？）。
+<a href="https://techbookfest.org/event/tbf04/circle/19150009" class="sc">
+![サークルチェック数](/images/neko-note/sc.png)
+</a>
+
+合計頒布数は700とかどんなペースで売ったら完売するんだって数があるので、全て売り切れるということはないと思います（ないよね？）。
 一応なくなってもBOOTHさんで販売を続けるので、完売になった本が出た場合はそちらをご案内させていただきます。
 
 というわけでみなさん技術書典を楽しみましょう！

@@ -24,7 +24,7 @@ export default {
     },
 
     twitter () {
-      return `https://twitter.com/share?url=${this.url}&text=${encodeURIComponent(this.title)} - @mya_ake`
+      return `https://twitter.com/share?url=${this.url}&text=${encodeURIComponent(this.title)}`
     },
 
     facebook () {

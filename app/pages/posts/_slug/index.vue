@@ -87,7 +87,7 @@ export default {
     },
 
     buildedTitle () {
-      return `${this.content.title} - mya-ake.com`
+      return `${this.content.title} - mya-ake com`
     },
 
     buildedThumbnail () {

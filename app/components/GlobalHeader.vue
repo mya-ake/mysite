@@ -1,14 +1,14 @@
 <template>
   <header class="header">
     <div class="site-logo">
-      <nuxt-link to="/">
+      <a to="/">
         <img v-on:click="handleClickToTop" class="logo" src="~/assets/images/mya-ake_logo_text.svg" alt="サイトのロゴ トップページへのリンク">
-      </nuxt-link>
+      </a>
     </div>
     <nav ref="navigation" class="navigation">
       <ul class="navigation__list">
         <li v-for="(item, index) in menuItem" v-bind:key="`menu-${index}`" class="navigation__item">
-          <nuxt-link v-bind:to="item.url" class="navigation__link">{{item.name}}</nuxt-link>
+          <a v-bind:href="item.url" class="navigation__link">{{item.name}}</a>
         </li>
       </ul>
     </nav>
@@ -109,7 +109,7 @@
     padding: 8px 24px;
   }
 
-  &.nuxt-link-exact-active {
+  &.a-exact-active {
     &::after {
       width: 100%;
       left: 0%;
