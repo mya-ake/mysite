@@ -53,6 +53,7 @@ export default {
 
   mounted () {
     this.initializeAd()
+    this.initializeTwitter()
   },
 
   head () {
@@ -115,6 +116,18 @@ export default {
         google_ad_client: 'ca-pub-9428775704052737',
         enable_page_level_ads: true,
       })
+    },
+
+    async initializeTwitter () {
+      if (document.querySelectorAll('.twitter-tweet').length === 0) {
+        return
+      }
+      if (window.twttr === 'undefined') {
+        await this.$nextTieck()
+        this.initializeTwitter()
+        return
+      }
+      window.twttr.widgets.load()
     },
   },
 
