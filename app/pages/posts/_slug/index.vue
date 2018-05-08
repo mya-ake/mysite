@@ -68,9 +68,10 @@ export default {
     ]
 
     if (this.content.thumbnail !== '') {
+      const twitterCardType = this.content.twitterCardType || 'summary_large_image'
       meta.push({ hid: 'og:image', property: 'og:image', content: this.buildedThumbnail })
       meta.push({ hid: 'twitter:image', name: 'twitter:image', content: this.buildedThumbnail })
-      meta.push({ hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' })
+      meta.push({ hid: 'twitter:card', name: 'twitter:card', content: twitterCardType })
     }
 
     return {

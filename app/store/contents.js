@@ -24,6 +24,7 @@ export const state = () => {
       description: '',
       body: '',
       thumbnail: '',
+      twitterCardType: '',
       createdAt: '',
       updatedAt: '',
     },
@@ -38,6 +39,7 @@ export const mutations = {
         description: '',
         body: '',
         thumbnail: '',
+        twitterCardType: '',
         createdAt: '',
         updatedAt: '',
       }
@@ -47,6 +49,7 @@ export const mutations = {
         description: payload.description,
         body: payload.body,
         thumbnail: payload.thumbnail,
+        twitterCardType: payload.twitterCardType,
         createdAt: payload.createdAt,
         updatedAt: payload.updatedAt,
       }

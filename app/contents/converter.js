@@ -152,7 +152,7 @@ const extractDate = (html) => {
 }
 
 const extractThumbnail = (html) => {
-  return html.match(/\+\+(.*?)\+\+/)
+  return html.match(/\+\+([^,]*)?,?([^,]*)?\+\+/)
 }
 
 const appendCodeHljsClass = (html) => {
@@ -196,7 +196,7 @@ const buildJson = (html) => {
   const [removeHtmlTitle, title] = extractTitle(html) || ['', '']
   const [removeHtmlDesciption, description] = extractDescription(html) || ['', '']
   const [removeHtmlDate, createdAt, updatedAt] = extractDate(html) || ['', '', '']
-  const [removeHtmlThumbnail, thumbnail] = extractThumbnail(html) || ['', '']
+  const [removeHtmlThumbnail, thumbnail, twitterCardType] = extractThumbnail(html) || ['', '', '']
   html = html.replace(removeHtmlTitle, '')
           .replace(removeHtmlDesciption, '')
           .replace(removeHtmlDate, '')
@@ -212,6 +212,7 @@ const buildJson = (html) => {
     description,
     body: html,
     thumbnail,
+    twitterCardType,
     createdAt,
     updatedAt,
   }
