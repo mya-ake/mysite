@@ -42,7 +42,6 @@ module.exports = {
     link: [
     ],
     script: [
-      { src: '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', async: '' },
       { src: 'https://platform.twitter.com/widgets.js', async: '' },
     ],
   },
