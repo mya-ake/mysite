@@ -8,7 +8,8 @@
     <nav ref="navigation" class="navigation">
       <ul class="navigation__list">
         <li v-for="(item, index) in menuItem" v-bind:key="`menu-${index}`" class="navigation__item">
-          <a v-bind:href="item.url" class="navigation__link">{{item.name}}</a>
+          <nuxt-link v-if="item.local" v-bind:to="item.url" class="navigation__link">{{item.name}}</nuxt-link>
+          <a v-else v-bind:href="item.url" class="navigation__link">{{item.name}}</a>
         </li>
       </ul>
     </nav>
@@ -38,6 +39,11 @@
           {
             name: 'Contact',
             url: '/contact',
+          },
+          {
+            name: 'Privacy Policy',
+            url: '/privacy_policy',
+            local: true,
           },
         ],
       }
