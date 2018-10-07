@@ -43,9 +43,7 @@ td:last-child {
 }
 </style>
 
-<div class="logo-wrapper">
-![neko-noteのロゴ](/images/neko-note/logo_nekonote.svg)
-</div>
+![](/images/neko-note/neko-note_pricelist_tbf5.jpg)
 
 ## この記事は？
 
@@ -55,7 +53,7 @@ td:last-child {
 #### 頒布情報へジャンプ
 
 - [Try PWA](#Try_PWA)
-- [知らないと損する Chrome Developer Tools](#知らないと損するChrome_Developer_Tools)
+- [知らないと損する Chrome Developer Tools](#知らないと損する_Chrome_Developer_Tools)
 - [マテリアルデザインをかじる本](#マテリアルデザインをかじる本)
 
 #### 価格や支払い方法へジャンプ
@@ -122,7 +120,7 @@ web のフロントエンドから始まり、プッシュ通知を送るため�
 こんな事できたの！？どうやるんだっけ？というあまり知られていない Tips が盛りだくさん！手順と画像がセットで紹介されていてとてもわかりやすいです 👍
 目次から逆引き形式で探せる手元に置きたい 1 冊となってます。
 
-ほぼすべてのタブの機能を解説しているので使いこなしたいという方にオススメです！
+ほぼすべてのパネルの機能を解説しているので使いこなしたいという方にオススメです！
 
 ##### もくじ
 
@@ -182,70 +180,70 @@ material.io を学ぶための超入門本です
     <tr class="row">
       <th>本</th>
       <th>頒布形態</th>
-      <th>頒布数</th>
       <th>価格</th>
+      <th>頒布数</th>
     </tr>
   </thead>
   <tbody>
     <tr class="row">
       <td rowspan="2" class="book-name">Try PWA</td>
       <td>物理本 + DLカード</td>
-      <td>400</td>
       <td>1,500円</td>
+      <td>400</td>
     </tr>
     <tr class="row">
       <td>DLカード</td>
-      <td>300</td>
       <td>1,000円</td>
+      <td>300</td>
     </tr>
     <tr class="row">
       <td rowspan="2" class="book-name">知らないと損する<br>Chrome Developer Tools</td>
       <td>物理本 + DLカード</td>
-      <td>400</td>
       <td>1,000円</td>
+      <td>？</td>
     </tr>
     <tr class="row">
       <td>DLカード</td>
-      <td>200</td>
       <td>1,000円</td>
+      <td>200</td>
     </tr>
     <tr class="row">
       <td rowspan="3" class="book-name">マテリアルデザインを<br>かじる本</td>
       <td>物理本</td>
-      <td>100</td>
       <td>500円</td>
+      <td>100</td>
     </tr>
     <tr class="row">
       <td>DLカード</td>
-      <td>200</td>
       <td>300円</td>
+      <td>200</td>
     </tr>
     <tr class="row">
       <td>セット</td>
-      <td>※1</td>
       <td>700円</td>
+      <td>※1</td>
     </tr>
     <tr class="row">
       <td rowspan="1" class="book-name">知らないと損する<br>CSS</td>
       <td>DLカード</td>
-      <td>100</td>
       <td>500円</td>
+      <td>100</td>
     </tr>
     <tr class="row">
       <td rowspan="3" class="book-name">デザインの<br>うすい本</td>
       <td>物理本</td>
-      <td>100</td>
       <td>500円</td>
+      <td>100</td>
     </tr>
     <tr class="row">
       <td>DLカード</td>
-      <td>100</td>
       <td>300円</td>
+      <td>100</td>
     </tr>
     <tr class="row">
       <td>セット</td>
-      <td>※1</td>
       <td>700円</td>
+      <td>※1</td>
     </tr>
   </tbody>
 </table>
@@ -298,7 +296,7 @@ neko-note のコンセプトは「こんな情報欲しいと思ってネット�
 今回の技術書典には印刷が間に合わないのでブースでの頒布はありませんが、Amaznon などでご購入いただけるのでぜひお買い求めください！
 
 Amazon：http://amzn.asia/d/7WXNBCL  
-その他：https://nextpublishing.jp/book/10057.html
+その他の買えるところ一覧はこちら：https://nextpublishing.jp/book/10057.html
 
 #### なにが変わった？
 
