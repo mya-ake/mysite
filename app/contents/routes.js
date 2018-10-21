@@ -4,6 +4,7 @@ module.exports = [
   '/posts/techbook-fest-4-neko-note',
   '/posts/techbook-fest-4-neko-note-after',
   '/posts/techbook-fest-5-neko-note',
+  '/posts/techbook-fest-5-neko-note-after',
   '/privacy_policy',
   // '/about',
   // '/works',
