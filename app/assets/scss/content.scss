@@ -8,13 +8,13 @@
 .content__header {
   padding: 32px 16px 24px;
   @include media(small) {
-    padding: 64px 16px 48px;
+    padding: 64px 32px 48px;
   }
 }
 
 .content__title {
   margin: 0;
-  font-size: 2em;
+  font-size: 1.8em;
   line-height: 1.4;
   @include media(small) {
     font-size: 2.2em;
@@ -56,6 +56,10 @@
   table {
     margin: 0 0 16px;
     padding: 0 16px;
+
+    @include media(small) {
+      padding: 0 32px;
+    }
   }
 
   p:has(img) {
@@ -80,6 +84,10 @@
         padding: 4px 0;
       }
     }
+
+    @include media(small) {
+      padding-left: calc(32px + 1em);
+    }
   }
 
   hr {
@@ -93,7 +101,10 @@
     background-size: 1.3em;
     background-image: url(~/assets/images/mya-ake_logo.svg);
     background-repeat: no-repeat;
-    background-position: 0.4em 0.25em;
+    background-position: 1em 0.25em;
+    @include media(small) {
+      padding-left: 2.4em;
+    }
   }
 
   h3 {
@@ -123,7 +134,7 @@
 
   th,
   td {
-    padding: 16px 8px 16px 0;
+    padding: 16px 8px 16px 8px;
   }
 
   tr {
