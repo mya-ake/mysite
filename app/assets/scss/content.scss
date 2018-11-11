@@ -101,9 +101,10 @@
     background-size: 1.3em;
     background-image: url(~/assets/images/mya-ake_logo.svg);
     background-repeat: no-repeat;
-    background-position: 1em 0.25em;
+    background-position: .5em 0.25em;
     @include media(small) {
       padding-left: 2.4em;
+      background-position: 1em 0.25em;
     }
   }
 
