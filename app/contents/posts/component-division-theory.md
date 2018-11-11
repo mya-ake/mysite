@@ -1,6 +1,10 @@
 # Atomic Design ベースのコンポーネント設計を考えてみた
 
-==2018-11-10==
+@@
+コンポーネント設計に悩み Atomic Design を検討した結果 Atomic Design に落ち着いたという話です。Atomic Design の原典を読んだりなどして、自分なりに制約を作りコンポーネント設計として落とし込んだ内容になっています。
+@@
+
+==2018-11-11==
 
 ## 背景
 
@@ -16,7 +20,7 @@
 
 このような背景があり自分の考えをまとめるためにもこの記事を書き始めました。
 
-そして最終的に Atomic Design ベースの設計になりました。
+そして最終的に Atomic Design ベースの設計になりました（合わせてタイトルも Atomic Design になりました）。
 
 ## Atomic Design を導入することを考える
 
@@ -120,8 +124,8 @@ Atomic Design をベースにするなら基本的には Atomic Design の制約
 | カテゴリ | 依存してもいいもの | 依存の数 | 備考 |
 |:---:|:---:|:---:|:---:|
 | Atoms | なし | 0 | 分割できてはいけない |
-| Molecules | Atoms | 2 以上 | シンプル |
-| Organisms | Atoms, Molecules, Organisims | いくつでも | 複雑になりがち |
+| Molecules | Atoms | 2 以上 | - |
+| Organisms | Atoms, Molecules, Organisims | いくつでも | - |
 | Pages | Organisms | いくつでも | Organisms を組み合わせるだけ |
 
 ただし、これだけの制約では実装するときに困ります。
@@ -240,8 +244,8 @@ npm に公開されているので、npm scripts に生成コマンドを用意�
 | カテゴリ | 依存してもいいもの | 依存の数 | 備考 |
 |:---:|:---:|:---:|:---:|
 | Atoms | なし | 0 | 分割できてはいけない |
-| Molecules | Atoms | 2 以上 | シンプル |
-| Organisms | Atoms, Molecules, Organisims | いくつでも | 複雑になりがち |
+| Molecules | Atoms | 2 以上 | - |
+| Organisms | Atoms, Molecules, Organisims | いくつでも | - |
 | Pages | Organisms | いくつでも | Organisms を組み合わせるだけ |
 | Presenters | なし | 0 | 特定の機能の提供のみ |
 
@@ -298,7 +302,9 @@ Atomic Design をやると大量のコンポーネントが生まれます。
 
 結論としては、まあ大丈夫では？というところです。
 というのもデザインの差は Molecules や Organisims で吸収できるので、どんなデザインでも適応は可能であると思います。
-ただコンポーネント数が大爆発する可能性はあります。
+ただコンポーネント数が大爆発する可能性は大いにあります。
+それが許容できるならという感じでしょうか。
+
 できるならデザインを作る段階から Atomic Design を意識しておく必要があると思います。
 
 ## まとめ
@@ -306,6 +312,9 @@ Atomic Design をやると大量のコンポーネントが生まれます。
 なんか Atomic Design ベースで実装できそうな気がします。
 というかここから先は実際に手を動かしてみないとよくわからないです。
 仕事先にはこの記事見せてご意見伺って許可がもらえたら実際にこの方法で構築してみようと思います。
+
+やってみての感想とかは随時 Twitter でつぶやくと思います。
+最終的な感想はまた改めて記事書くかもしれません（書きたい気持ちはある）。
 
 ## おまけ
 
@@ -317,8 +326,9 @@ Layouts はページのコンテンツ以外の部分、たとえばグローバ
 Pages は Layouts の中に入るコンテンツのコンポーネントです。
 
 Pages が Atomic Design の Pages と Nuxt.js の Pages で名前が被っているのでとてもややこしいですね。
-なので Nuxt.js で導入する場合は（Atomic Design の）Pages の上に Layouts という概念を置いておくべきだと思います。
+なので Nuxt.js で導入する場合は（Atomic Design の）Pages の上に Layouts という概念を新たに置いておくべきだと思います。
 （Nuxt.js の）Pages を Atomic Design の Organisms 相当に置いてもいいのですが、まあ名前がややこしいです。
+あとディレクトリ構成的にも他と同じ Organisms として扱えないのでなんとも言えない気持ちになってしまいます。
 そういう理由から Layouts を増やします。
 
 Layouts は子に（Atomic Designの）Pages や Organisms を持ちます。
@@ -326,10 +336,9 @@ Layouts は子に（Atomic Designの）Pages や Organisms を持ちます。
 
 | Atomic Designベースのカテゴリ | Nuxt.js のディレクトリ |
 |:---|:---|
-| Atoms | /components/atoms/ |
-| Molecules | /components/molecules/ |
-| Organisms | /components/organisms/ |
-| Presenters | /components/presenters/ |
-| Pages | /pages/ |
-| Layouts | /layouts/ |
-
+| Atoms | /components/atoms/* |
+| Molecules | /components/molecules/* |
+| Organisms | /components/organisms/* |
+| Presenters | /components/presenters/* |
+| Pages | /pages/* |
+| Layouts | /layouts/* |
