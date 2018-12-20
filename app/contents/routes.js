@@ -7,6 +7,7 @@ module.exports = [
   '/posts/techbook-fest-5-neko-note-after',
   '/posts/component-design-based-on-atomic-design',
   '/posts/release-info-vue-uid',
+  '/posts/vuejs-component-with-css-framework',
   '/privacy_policy',
   // '/about',
   // '/works',
