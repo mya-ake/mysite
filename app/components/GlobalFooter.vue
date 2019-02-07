@@ -12,7 +12,6 @@
           <p>猫好きのwebエンジニア。</p>
           <p>最近はwebのフロントエンドを中心にやってます。PWAとかサーバーレスアーキテクチャとかが好きです。</p>
           <p>福岡で <a href="https://twitter.com/hashtag/chibi_developer?src=hash" target="_blank">#chibi_developer</a> や <a href="https://twitter.com/hashtag/v_fukuoka?src=hash" target="_blank">#v_fukuoka</a> や <a href="https://twitter.com/hashtag/ng_fukuoka?src=hash" target="_blank">#ng_fukuoka</a> 辺りのイベントをやったりしてます。</p>
-          <p>ウミーベ株式会社 所属 （<a href="https://umee.be/" target="_blank">https://umee.be/</a>）</p>
         </div>
       </section>
 
