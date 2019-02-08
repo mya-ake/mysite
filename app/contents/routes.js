@@ -8,6 +8,7 @@ module.exports = [
   '/posts/component-design-based-on-atomic-design',
   '/posts/release-info-vue-uid',
   '/posts/vuejs-component-with-css-framework',
+  '/posts/i-became-a-freelance',
   '/privacy_policy',
   // '/about',
   // '/works',
