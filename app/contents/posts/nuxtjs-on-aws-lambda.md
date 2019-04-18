@@ -4,13 +4,13 @@
 Vue.js のユニバーサルアプリケーションを作るためのフレームワークである Nuxt.js を AWS Lambda で動かす方法について書かれている記事です。
 @@
 
-==2017-12-12,2018-11-19==
+==2017-12-12,2019-04-18==
 
 ## この記事について
 
 この記事は[Vue.js #2 Advent Calendar 2017 - Qiita](https://qiita.com/advent-calendar/2017/vue2)の 12 日目の記事です。
 
-この記事では [Nuxt.js](https://nuxtjs.org/)（v2.3.1）を [AWS Lambda](https://aws.amazon.com/jp/lambda/) で動かす方法について書いています。
+この記事では [Nuxt.js](https://nuxtjs.org/)（v2.6.2）を [AWS Lambda](https://aws.amazon.com/jp/lambda/) で動かす方法について書いています。
 Nuxt.js に関する説明もありますが、全体的にサーバー構築寄りの内容になっています。  
 しかし、Node.js で AWS にデプロイまでできる [Serverless Framework](https://serverless.com/) というツールを利用しており、[サンプルコード](https://github.com/mya-ake/nuxt-on-lambda) の npm scripts を実行するだけで AWS 上に環境を作れるようにしています。（AWS への登録と Credential の生成は必要です）
 ご興味のある方はそちらも参照してみてください。
@@ -38,6 +38,16 @@ AWS Lambda に Node.js v8.10 が入ったので、更新して再び使えるよ
 ###### 2018/11/19 追記
 
 Nuxt.js v2.3.1 対応した記事に更新しました！
+
+###### 2019/04/18 追記
+
+Nuxt.js v2.6.2 対応した記事に更新しました！
+また[Nuxt.js を Lambda で動かす際の理想の話](#Nuxt.js_を_Lambda_で動かす際の理想の話)の話を同人誌として出してました。BOOTH にて販売しているのでご興味ある方はそちらをご参照ください。
+
+主な内容はデプロイに関してです。Lambda にデプロイしつつ、S3 に静的リソースをデプロイして、CloudFront で配信するというものです。
+本番運用に関する tips も載ってるので、気になるものがありましたらご購入いただけると嬉しいです。
+
+BOOTHの販売ページ：[https://neko-note-help.booth.pm/items/1317543](https://neko-note-help.booth.pm/items/1317543)
 
 ### 対象読者
 
@@ -181,7 +191,7 @@ project_root/           # プロジェクトのルートフォルダ
 
 実装コードについては２つに分けて説明していこうと思います。
 １つはフロントエンド側（Nuxt.js）、もう１つは SSR するためのサーバー側（Node.js）です。  
-※説明しやすいようにサンプルコードとは一部異なるところもあります。
+※同人誌版対応でサンプルコードのリポジトリの一部コードに変更がありますが、最低限の内容はこの記事の書かれている内容になります。
 
 ### フロントエンド側 - Nuxt.js
 
@@ -256,6 +266,10 @@ base について: [API: router プロパティ - Nuxt.js](https://ja.nuxtjs.org
 ※サンプルコードの方では Base URL の設定が不要な環境では base を設定しないようなコードになっています。
 
 #### 3. gzip の無効化
+
+※ gzip に関しての対応は不要な場合もあるようです。
+筆者の環境では Nuxt.js のバージョンに関わらず gzip がかかっていると表示されません。
+ただ CloudFront を使っている場合などは CloudFront で gzip をかけられるため、Nuxt.js の gzip の機能を使う必要はないでしょう。
 
 Nuxt.js はデフォルトで gzip の機能が備わっています。
 ありがたい機能ではあるのですが、このままだとブラウザで表示できなくなってしまいます。（Chrome では白い画面、 Firefox では Content-Encoding に問題があると表示されます）
@@ -352,6 +366,25 @@ Express のミドルウェアは登録した順に処理を実行し、次のミ
 今回は 1 つのミドルウェアに 1 つの役割を持たせて処理を分割しました。
 中身に関してはそれぞれ大したことはしていないので[サンプルコード](https://github.com/mya-ake/nuxt-on-lambda/tree/master/server)の方をご覧ください。
 
+###### 2019/04/18 追記
+
+Nuxt.js v2.5（多分）から nuxt のインスタンスの ready メソッドを呼ぶ必要があるようです。
+
+このコードから
+
+```js
+app.use(nuxt.render);
+```
+
+このコードに更新しました。
+
+```js
+app.use(async (req, res, next) => {
+  await nuxt.ready();
+  nuxt.render(req, res, next);
+});
+```
+
 以上がサーバー側のコードです。
 
 ## まとめ
@@ -374,7 +407,10 @@ $ yarn deploy
 このコマンドでデプロイした場合は Base URL が設定されなくなります。
 カスタムドメインを設定する前提の場合はこちらのコマンドを利用してください。
 
-いずれカスタムドメインを使った場合のデプロイや設定の話もできればなと思います。
+###### 2019/04/18 追記
+
+この`yarn deploy`のコマンドは[理想の話](#Nuxt.js_を_Lambda_で動かす際の理想の話)のデプロイができるようなコマンドに更新されました。
+カスタムドメインを使う場合は理想の話の構成を参考にされてください。
 
 今回はここでいったん終わりにします。
 明日は[sunecosuri](https://qiita.com/sunecosuri)さんです。
@@ -436,7 +472,7 @@ const isMyPage = url => {
 
 const cacheMiddleware = (req, res, next) => {
   if (isMyPage(req.url)) {
-    res.header('Cache-Control', 'no-store, no-cache, max-age=0')
+    res.header('Cache-Control', 'no-store')
   } else {
     res.header('Cache-Control', `max-age=${60}`) // 1分間
   }
@@ -480,6 +516,15 @@ AWS のサービスのそれぞれの役割は次のようになってます。
 
 このような理由から上記のような構成図になります。  
 実際に実務でのプロジェクトでは上記のような構成になっています。
+
+###### 2019/04/18 追記
+
+冒頭にも書きましたが、この話を同人誌として出してました。BOOTH にて販売しているのでご興味ある方はそちらをご参照ください。
+
+主な内容はデプロイと AWS の設定に関してです。
+本番運用に関する tips も載ってるので、気になるものがありましたらご購入いただけると嬉しいです。
+
+BOOTHの販売ページ：[https://neko-note-help.booth.pm/items/1317543](https://neko-note-help.booth.pm/items/1317543)
 
 ### なぜ Lambda のデプロイパッケージを小さくするのか？
 
