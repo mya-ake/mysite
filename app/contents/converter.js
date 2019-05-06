@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const marked = require('marked')
-const highlight = require('highlight.js')
+const highlight = require('highlightjs')
 const colors = require('colors/safe')
 
 /** marked settings */
@@ -152,7 +152,7 @@ const extractDate = (html) => {
 }
 
 const extractThumbnail = (html) => {
-  return html.match(/\+\+([^,]*)?,?([^,]*)?\+\+/)
+  return html.match(/\+\+([a-zA-Z0-9\-/_.]*)?,?([a-z]*)?\+\+/)
 }
 
 const appendCodeHljsClass = (html) => {
