@@ -229,7 +229,7 @@ Composition APIにより、柔軟性が高くなったが、その分規律が�
 いっそのことSFCのscriptブロックを別ファイルにして、scriptブロックのsrc属性で読み込むということをしてもいいかもしれません。
 
 またComposition APIはVueと独立して使うことができます。
-そのためJestなどでComposition Functionをテストする際は、Vueのコンポーネントのようにtest utilsなどのサポートライブラリを必要とせずテストすることが可能になります。  
+そのためJestなどでComposition Functionをテストする際は、Vueのコンポーネントのようにtest utilsなどのサポートライブラリを必要とせずテストすることが可能になります（JestのセットアップでVueにプラグインを追加するか、localVueにプラグインを追加する必要はあり）。  
 あと完全に思いつきでしかないのですが、Composition APIを他のviewライブラリと組み合わせことも不可能ではないと思います。watchで再描画を行うようにすることで可能になると思います。
 まあVueをやめても使い回せるというメリットがあるかもしれませんが、再描画する処理を自身で書いていくのは現実的でないのでやめておいたほうがいいように思います。
 
@@ -292,6 +292,9 @@ export default createComponent({
 これはプリミティブな値となってしまったため、参照が外れ同じ値ではなくなってしまったため起こってしまいます。
 そのためsetupのpropsはオブジェクトのまま受け取るようにしておかないと思わぬバグにつながるかもしれません。
 
+プラグインとしてのComposition APIではなく、Vue 3で解消されるかと言われると厳しいように思います（公開されてるので試せばいいのですがそこまでの時間は取れていない）。
+Reactのように描画のたびに実行されればプリミティブでも大丈夫なんですが、Vueの場合はsetupが一度しか実行されないので参照を維持させ続けないといけないのは仕方ないので、Propsはこういうものとして扱うのが無難だと考えます。
+
 #### 余談：modelの生成をComposition Functionとして切り出す
 
 こうなります。これでTextareaのコンポーネントでも再利用できます。
@@ -327,5 +330,64 @@ export default createComponent({
 
 ## Vuexはいらなくなる？
 
-## 次回Vue Composition APIの設計戦略
+Composition APIを使えばグローバルなストアも作ることができます。
+ただVuexはFluxパターンを適用するためのものであり、グローバルなストアを作ることを目的としていないので、本質的にはVuexとグローバルなストアを作れることを同じ基準にすることはできません。
+そのためVuexがいらなくなるかどうかはFluxパターンを適用したいかという点で考えるべきです。
+
+現状としてはVuexがVue 3でどうなるかは見えていない（筆者が追えてないだけかもしれませんが）ので、どうなるかはわかりません。
+ただDevツールなどを活用していきたい場合は採用することになるのではないかと思います。
+
+これだけだとちょっとつまらないので、軽くグローバルなストアの作り方とかを書いておきます。
+
+### グローバルなストア
+
+もしVuexを使わずにストアを用意したいのであれば次のように実装することもできます。
+カウンターのグローバルなストアです。
+
+```ts
+import { reactive, computed } from '@vue/composition-api';
+
+let initialized = false;
+let storeState = { count: 0 };
+
+export const useCountStore = () => {
+  if (!initialized) {
+    storeState = reactive(storeState);
+    initialized = true;
+  }
+
+  const increment = () => {
+    storeState.count++;
+  };
+  const count = computed(() => storeState.count);
+  return {
+    count,
+    increment,
+  };
+};
+```
+
+initializedの辺りがイケてないですが、Composition APIをプラグインに追加するまでAPIを利用することができないので、初回の利用時にreactive関数でリアクティブ化してあげる必要があります。
+
+また今回書いた方法とは別でprovide&injectを使って、provide時にストアを初期化するような方法を取れば、initialized辺りのイケてない感を取り除けると思います。
+
+### Composition APIライクなFluxパターンを使いたい
+
+ReactのuseReducerのようなものを作れば、Fluxパターンを適用できます。
+完全に個人で作ったライブラリの紹介にはなるのですが、useReducerを見て、Vueでもほしいなと思ったというか作りたくなってしまって作った[vue-use-reducer](https://github.com/mya-ake/vue-use-reducer)があります。
+これを使えば一応Fluxパターンを適用する足がかりになると思います。  
+ライブラリの中身を見てもらうとわかるのですが、大したコード量じゃないです。
+ライブラリはVue.observable()を使って実装しているので、Composition APIを使って、自身で実装してみるのもおもしろいかもしれません。
+
+## まとめ
+
+つらつら〜っとコラムっぽいものをいくつか書いてみました。
+使ってみて色々思ったことを残しておきたかったので、このような1つの記事に複数のテーマを入れるみたいな記事ができてしまいました。  
+しかもけっこう長くなってしまって最後まで読んでくれた人ありがとうという気持ちです。
+
+今回のアドベントカレンダーはもう1つ記事を書く予定（24日）なので、その予告を最後にちょっと書いてこの記事を締めようかなと思います。
+
+## 次回Vue Composition APIの設計
+
+
 
