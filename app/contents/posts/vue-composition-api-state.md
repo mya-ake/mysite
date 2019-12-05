@@ -1,10 +1,18 @@
 # Vue Composition APIのコラムっぽいもの集
 
+
+==2019-12-05==
+
+++/images/vue-composition-api/ad_20191205.png++
+
+![](/images/vue-composition-api/ad_20191205.png)
+
 ## この記事について
 
 この記事は[bosyu Advent Calendar 2019](https://qiita.com/advent-calendar/2019/bosyu)の5日目の記事です。
 
-この記事では[Vue Composition API](https://vue-composition-api-rfc.netlify.com)についてのコラムっぽいものをいくつか書いてみた記事です。
+昨日の[めろたん](https://twitter.com/renyamizuno_)の[Vue Composition APIで型がぶっ壊れて楽しかったです](https://qiita.com/merotan/items/fa31f7242e6888538259)に引き続き[Vue Composition API](https://vue-composition-api-rfc.netlify.com)のお話です。
+僕はComposition APIのコラムっぽいものをいくつか書いてみた記事です。
 
 ### ⚠️注意
 
@@ -18,6 +26,19 @@ Vue Composition API自体はまだ正式なリリースがされていない実�
 
 ※ちなみにbosyuでVue Composition APIの導入もしました（冒頭でプロダクションでの利用を注意喚起しておいて入れてます）。
 いざってときはPR出そうっていう話をメンバーでしてます。
+
+## 目次
+
+- [Vue Composition APIとは](#Vue_Composition_APIとは)
+- [Vue Composition APIのアレなところを掘り下げる](#Vue_Composition_APIのアレなところを掘り下げる)
+  - [Overhead of Introducing Refs](#Overhead_of_Introducing_Refs)
+  - [Ref vs. Reactive](#Ref_vs._Reactive)
+  - [Verbosity of the Return Statement](#Verbosity_of_the_Return_Statement)
+  - [More Flexibility Requires More Discipline](#More_Flexibility_Requires_More_Discipline)
+- [Propsがリアクティブがじゃなくなる？](#Propsがリアクティブがじゃなくなる？)
+- [Vuexはいらなくなる？](#Vuexはいらなくなる？)
+- [まとめ](#まとめ)
+- [次回Vue Composition APIの設計](#次回Vue_Composition_APIの設計)
 
 ## Vue Composition APIとは
 
@@ -71,6 +92,7 @@ export default createComponent({
 行数は増えていますが、コードにおいて大事なのはコード量（だけ）ではないのでそこは気にしないでください。
 大事なのはdataとmethodsに散らばっていたコードがuseCounterという関数の中で閉じられています。
 このuseCounterは*Composition Function*と言います（日本語にすると合成関数ですが翻訳による認識の齟齬を生まないためにもComposition Functionと呼称します）。
+Composition FunctionはuseXxxと関数名にuseプレフィックスを付けるのが慣習となります。
 
 これだけのコードでは正直ありがたみがないですが、Vueを書いている人は、ある機能に関連するコードが随所に散らばって読みづらくなるという経験をしていると思います。
 そのようなコードがComposition Functionとしてまとめることができるようになるというのはメリットではないでしょうか？
@@ -80,9 +102,11 @@ export default createComponent({
 
 また公式サイトにはRFCの仕様だけではなく[API Reference](https://vue-composition-api-rfc.netlify.com/api.html)も存在するので、ref関数などのComposition APIで使えるものはそちらをご覧ください。（右上のメニューにあるんだけど見落としがちだよね）
 
+次からコラムの始まりです🐈
+
 ## Vue Composition APIのアレなところを掘り下げる
 
-公式サイトの方にDrawbacksというセクションがあります。
+公式サイトの方に[Drawbacks](https://vue-composition-api-rfc.netlify.com/#drawbacks)というセクションがあります。
 これはComposition APIに対する微妙な感じのところを公式で解説しているところです。
 その箇所を個人的に掘り下げてみようと思います。
 
@@ -229,7 +253,7 @@ Composition APIにより、柔軟性が高くなったが、その分規律が�
 いっそのことSFCのscriptブロックを別ファイルにして、scriptブロックのsrc属性で読み込むということをしてもいいかもしれません。
 
 またComposition APIはVueと独立して使うことができます。
-そのためJestなどでComposition Functionをテストする際は、Vueのコンポーネントのようにtest utilsなどのサポートライブラリを必要とせずテストすることが可能になります（JestのセットアップでVueにプラグインを追加するか、localVueにプラグインを追加する必要はあり）。  
+そのためJestなどでComposition Functionをテストする際は、Vueのコンポーネントのようにtest utilsなどのサポートライブラリを必要とせずテストすることが可能になります（現時点ではJestのセットアップでVueにプラグインを追加するか、localVueにプラグインを追加する必要はあり）。  
 あと完全に思いつきでしかないのですが、Composition APIを他のviewライブラリと組み合わせことも不可能ではないと思います。watchで再描画を行うようにすることで可能になると思います。
 まあVueをやめても使い回せるというメリットがあるかもしれませんが、再描画する処理を自身で書いていくのは現実的でないのでやめておいたほうがいいように思います。
 
@@ -331,7 +355,7 @@ export default createComponent({
 ## Vuexはいらなくなる？
 
 Composition APIを使えばグローバルなストアも作ることができます。
-ただVuexはFluxパターンを適用するためのものであり、グローバルなストアを作ることを目的としていないので、本質的にはVuexとグローバルなストアを作れることを同じ基準にすることはできません。
+ただVuexはFluxパターンを適用するためのものであり、グローバルなストアを作ることを目的としていないので、本質的にはVuexの利用とグローバルなストアを作れることを同じ基準にすることはできません。
 そのためVuexがいらなくなるかどうかはFluxパターンを適用したいかという点で考えるべきです。
 
 現状としてはVuexがVue 3でどうなるかは見えていない（筆者が追えてないだけかもしれませんが）ので、どうなるかはわかりません。
@@ -389,5 +413,22 @@ ReactのuseReducerのようなものを作れば、Fluxパターンを適用で�
 
 ## 次回Vue Composition APIの設計
 
+実際に、アプリケーションに落とすとどうなるか、どういう設計をすべきかというところを書いていきたいと考えています。
+今のところサンプルコードを一行も書いてないのですが、あと2週間以上あるので大丈夫でしょう🚩
 
+今考えていることや課題感を小出ししておきます（メモみたいな感じになった）。
 
+- アプリケーションのほとんどのコードはComposition Functionとなる
+  - ファイル数・種類が膨大になる
+- Composition FunctionからComposition Functionを呼び出すということはありうる
+  - FacadeとなるComposition Function
+- グローバルストア・シングルトンはどう扱う？
+  - Composition Functionで作る？
+  - provide&injectを使いDIコンテナーで管理させる？
+    - 場合によっては[InversifyJS](https://github.com/inversify/InversifyJS)や[tsyringe](https://github.com/microsoft/tsyringe)を入れる？
+- コンポーネント設計は？
+  - ContainerコンポーネントとPresentationalコンポーネント
+    - Presentationalコンポーネントは基本Functional Componentで作る
+  - 粒度による分類ではなくドメインによる分類
+
+こんな感じのことをまとめていい感じの記事になるといいな〜〜〜
