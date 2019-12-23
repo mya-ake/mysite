@@ -1,5 +1,8 @@
 # Vue Composition APIのコラムっぽいもの集
 
+@@
+Vue Composition APIを使ってみての考察などを書いています。refとreactiveの使い分けや使っていてハマった落とし穴についてなど、いくつかをコラム集という形で記事にしてみました。
+@@
 
 ==2019-12-05==
 
@@ -13,6 +16,8 @@
 
 昨日の[めろたん](https://twitter.com/renyamizuno_)の[Vue Composition APIで型がぶっ壊れて楽しかったです](https://qiita.com/merotan/items/fa31f7242e6888538259)に引き続き[Vue Composition API](https://vue-composition-api-rfc.netlify.com)のお話です。
 僕はComposition APIのコラムっぽいものをいくつか書いてみた記事です。
+
+ちなみにサムネイルは[@murokaco](https://twitter.com/murokaco?s=20)さん作です！
 
 ### ⚠️注意
 
@@ -138,9 +143,9 @@ ref関数とreactive関数ですが、簡単にコードを書くと次のよう
 
 ```ts
 // ref
-const coustRef = ref(0);
-coustRef.value++;
-console.log(coustRef.value); // 1
+const countRef = ref(0);
+countRef.value++;
+console.log(countRef.value); // 1
 
 // reactive
 const countState = reactive({ count: 0 });
@@ -247,7 +252,7 @@ Composition APIにより、柔軟性が高くなったが、その分規律が�
 これは本当にその通りで今まで以上にスパゲッティなコードができあがる可能性は高くなります。
 それは自由度が上がったためによるもので、決してComposition APIの仕様によるものではありません。
 しかしながらこの自由度によりコードの表現の幅が広がりました。
-今まではどうしてもobjectベースだっため、コンポーネントの機能を外に切り出すのは難しったかったです。mixinという形で切り出せはしましたが、書き心地がいいものではなかったと思います。
+今まではどうしてもobjectベースだっため、コンポーネントの機能を外に切り出すのは難しかったです。mixinという形で切り出せはしましたが、書き心地がいいものではなかったと思います。
 それを関数という形で切り出せるようになったので、.vueファイルに書かずに、.jsや.tsなど別のファイルに書くということがやりやすくなります。
 そうするとテストもやりやすくなりますし、.vueファイルはシンプルにviewに関することと必要なComposition Functionを呼び出すことだけになり、よりviewに集中しやすくなります。
 いっそのことSFCのscriptブロックを別ファイルにして、scriptブロックのsrc属性で読み込むということをしてもいいかもしれません。

@@ -9,6 +9,7 @@ module.exports = [
   '/posts/release-info-vue-uid',
   '/posts/vuejs-component-with-css-framework',
   '/posts/i-became-a-freelance',
+  '/posts/vue-composition-api-columns',
   '/privacy_policy',
   // '/about',
   // '/works',
