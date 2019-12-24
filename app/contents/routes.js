@@ -10,6 +10,7 @@ module.exports = [
   '/posts/vuejs-component-with-css-framework',
   '/posts/i-became-a-freelance',
   '/posts/vue-composition-api-columns',
+  '/posts/software-engineer-may-breaks-business',
   '/privacy_policy',
   // '/about',
   // '/works',
