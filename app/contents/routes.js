@@ -11,6 +11,7 @@ module.exports = [
   '/posts/i-became-a-freelance',
   '/posts/vue-composition-api-columns',
   '/posts/software-engineer-may-breaks-business',
+  '/posts/join-mercari',
   '/privacy_policy',
   // '/about',
   // '/works',
